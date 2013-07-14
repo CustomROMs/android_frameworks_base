@@ -2258,7 +2258,7 @@ public class GnssLocationProvider implements LocationProviderInterface, InjectNt
                     type = AGPS_REF_LOCATION_TYPE_GSM_CELLID;
                 }
                 native_agps_set_ref_location_cellid(type, mcc, mnc,
-                        gsm_cell.getLac(), gsm_cell.getCid());
+                        gsm_cell.getLac(), gsm_cell.getCid(), gsm_cell.getPsc());
             } else {
                 Log.e(TAG, "Error getting cell location info.");
             }
@@ -2766,7 +2766,7 @@ public class GnssLocationProvider implements LocationProviderInterface, InjectNt
 
     // AGPS ril suport
     private native void native_agps_set_ref_location_cellid(int type, int mcc, int mnc,
-            int lac, int cid);
+            int lac, int cid, int psc);
 
     private native void native_agps_set_id(int type, String setid);
 
