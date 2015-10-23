@@ -1021,16 +1021,24 @@ public final class ActivityThread {
         public void scheduleRegisteredReceiver(IIntentReceiver receiver, Intent intent,
                 int resultCode, String dataStr, Bundle extras, boolean ordered,
                 boolean sticky, int sendingUser, int processState) throws RemoteException {
+            RemoteException remoteException = null;
             if (!Binder.isProxy(receiver)) {
                 updateProcessState(processState, false);
-                receiver.performReceive(intent, resultCode, dataStr, extras, ordered,
-                        sticky, sendingUser);
-                return;
+                try {
+                    receiver.performReceive(intent, resultCode, dataStr, extras, ordered,
+                            sticky, sendingUser);
+                    return;
+                } catch (RemoteException e) {
+                    remoteException = e;
+                }
             }
             if (ordered) {
                 Slog.w(TAG, receiver + " is no longer alive");
                 ActivityManagerNative.getDefault().finishReceiver(receiver.asBinder(),
                         resultCode, dataStr, extras, true, intent.getFlags());
+                if (remoteException != null) {
+                    throw remoteException;
+                }
             }
         }
 
