@@ -191,6 +191,10 @@ message SystemMessage {
     // Legacy IDs with arbitrary values appear below
     // Legacy IDs existed as stable non-conflicting constants prior to the O release
 
+    // Inform that USB is configured for USB Mass Storage
+    // Package: android
+    NOTE_USB_UMS = 50;
+
     // Network status notes, previously decleared in metrics_constants with these values
     // Package: android
     //

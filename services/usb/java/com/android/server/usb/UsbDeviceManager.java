@@ -701,7 +701,8 @@ public class UsbDeviceManager {
 
                 if (mBootCompleted
                         && (UsbManager.containsFunction(functions, UsbManager.USB_FUNCTION_MTP)
-                        || UsbManager.containsFunction(functions, UsbManager.USB_FUNCTION_PTP))) {
+                        || UsbManager.containsFunction(functions, UsbManager.USB_FUNCTION_PTP)
+                        || UsbManager.containsFunction(functions, UsbManager.USB_FUNCTION_UMS))) {
                     // Start up dependent services.
                     updateUsbStateBroadcastIfNeeded(true);
                 }
@@ -1055,7 +1056,8 @@ public class UsbDeviceManager {
 
         private boolean isUsbDataTransferActive() {
             return UsbManager.containsFunction(mCurrentFunctions, UsbManager.USB_FUNCTION_MTP)
-                    || UsbManager.containsFunction(mCurrentFunctions, UsbManager.USB_FUNCTION_PTP);
+                    || UsbManager.containsFunction(mCurrentFunctions, UsbManager.USB_FUNCTION_PTP)
+                    || UsbManager.containsFunction(mCurrentFunctions, UsbManager.USB_FUNCTION_UMS);
         }
 
         public UsbAccessory getCurrentAccessory() {
@@ -1115,6 +1117,10 @@ public class UsbDeviceManager {
                         UsbManager.USB_FUNCTION_MIDI)) {
                     titleRes = com.android.internal.R.string.usb_midi_notification_title;
                     id = SystemMessage.NOTE_USB_MIDI;
+                } else if (UsbManager.containsFunction(mCurrentFunctions,
+                        UsbManager.USB_FUNCTION_UMS)) {
+                    titleRes = com.android.internal.R.string.usb_mtp_notification_title;
+                    id = SystemMessage.NOTE_USB_UMS;
                 } else if (UsbManager.containsFunction(mCurrentFunctions,
                         UsbManager.USB_FUNCTION_ACCESSORY)) {
                     titleRes = com.android.internal.R.string.usb_accessory_notification_title;

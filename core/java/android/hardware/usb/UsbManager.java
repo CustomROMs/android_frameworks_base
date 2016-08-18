@@ -226,6 +226,14 @@ public class UsbManager {
     public static final String USB_FUNCTION_MTP = "mtp";
 
     /**
+     * Name of the UMS USB function.
+     * Used in extras for the {@link #ACTION_USB_STATE} broadcast
+     *
+     * {@hide}
+     */
+    public static final String USB_FUNCTION_UMS = "mass_storage";
+
+    /**
      * Name of the PTP USB function.
      * Used in extras for the {@link #ACTION_USB_STATE} broadcast
      *
