@@ -253,5 +253,6 @@
     <item msgid="7398830860950841822">"RNDIS (USB Ethernet)"</item>
     <item msgid="1718924214939774352">"Источник аудио"</item>
     <item msgid="8126315616613006284">"MIDI"</item>
+    <item>UMS (USB Mass Storage)</item>
   </string-array>
 </resources>

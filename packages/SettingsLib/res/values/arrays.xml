@@ -509,6 +509,7 @@
         <item>RNDIS (USB Ethernet)</item>
         <item>Audio Source</item>
         <item>MIDI</item>
+        <item>UMS (USB Mass Storage)</item>
     </string-array>
 
     <!-- USB configuration values for Developer Settings.
@@ -528,6 +529,8 @@
         <item>audio_source</item>
         <!-- Do not translate. -->
         <item>midi</item>
+        <!-- Do not translate. -->
+        <item>mass_storage</item>
     </string-array>
 
     <!-- Display color space adjustment modes for developers -->
