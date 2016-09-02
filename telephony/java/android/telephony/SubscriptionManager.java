@@ -1234,6 +1234,11 @@ public class SubscriptionManager {
         }
     }
 
+    /** @hide */
+    public static int getDefaultDataSubId() {
+        return getDefaultDataSubscriptionId();
+    }
+
     /**
      * Return the SubscriptionInfo for default data subscription.
      *
