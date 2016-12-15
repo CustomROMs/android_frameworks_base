@@ -496,7 +496,10 @@ public class Toast {
                     mWM.addView(mView, mParams);
                     trySendAccessibilityEvent();
                 } catch (WindowManager.BadTokenException e) {
-                    /* ignore */
+                    // Remove mView here to cleanup from an exception
+                    // and protect future calls to handleShow
+                    e.printStackTrace();
+                    mWM.removeViewImmediate(mView);
                 }
             }
         }
