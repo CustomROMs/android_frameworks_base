@@ -779,6 +779,9 @@ final class ActivityRecord extends ConfigurationContainer implements AppWindowCo
     }
 
     static ActivityRecord forTokenLocked(IBinder token) {
+        if (token == null) {
+            return null;
+        }
         try {
             return Token.tokenToActivityRecordLocked((Token)token);
         } catch (ClassCastException e) {
