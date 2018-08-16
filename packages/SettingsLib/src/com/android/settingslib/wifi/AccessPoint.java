@@ -469,7 +469,7 @@ public class AccessPoint implements Comparable<AccessPoint> {
      * @return true if the set speed has changed
      */
     private boolean updateScores(WifiNetworkScoreCache scoreCache, long maxScoreCacheAgeMillis) {
-        long nowMillis = SystemClock.elapsedRealtime();
+        long nowMillis = SystemClock.uptimeMillis();
         for (ScanResult result : mScanResultCache.values()) {
             ScoredNetwork score = scoreCache.getScoredNetwork(result);
             if (score == null) {
@@ -570,7 +570,7 @@ public class AccessPoint implements Comparable<AccessPoint> {
     }
 
     private void evictOldScanResults() {
-        long nowMs = SystemClock.elapsedRealtime();
+        long nowMs = SystemClock.uptimeMillis();
         for (Iterator<ScanResult> iter = mScanResultCache.values().iterator(); iter.hasNext(); ) {
             ScanResult result = iter.next();
             // result timestamp is in microseconds
@@ -956,7 +956,7 @@ public class AccessPoint implements Comparable<AccessPoint> {
         evictOldScanResults();
 
         // TODO: sort list by RSSI or age
-        long nowMs = SystemClock.elapsedRealtime();
+        long nowMs = SystemClock.uptimeMillis();
         for (ScanResult result : mScanResultCache.values()) {
             if (result.frequency >= LOWER_FREQ_5GHZ
                     && result.frequency <= HIGHER_FREQ_5GHZ) {

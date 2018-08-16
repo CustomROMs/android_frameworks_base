@@ -720,7 +720,7 @@ class AlarmManagerService extends SystemService {
     static long convertToElapsed(long when, int type) {
         final boolean isRtc = (type == RTC || type == RTC_WAKEUP);
         if (isRtc) {
-            when -= System.currentTimeMillis() - SystemClock.elapsedRealtime();
+            when -= System.currentTimeMillis() - SystemClock.elapsedRealtime1();
         }
         return when;
     }
@@ -774,7 +774,7 @@ class AlarmManagerService extends SystemService {
         ArrayList<Batch> oldSet = (ArrayList<Batch>) mAlarmBatches.clone();
         mAlarmBatches.clear();
         Alarm oldPendingIdleUntil = mPendingIdleUntil;
-        final long nowElapsed = SystemClock.elapsedRealtime();
+        final long nowElapsed = SystemClock.elapsedRealtime1();
         final int oldBatches = oldSet.size();
         for (int batchNum = 0; batchNum < oldBatches; batchNum++) {
             Batch batch = oldSet.get(batchNum);
@@ -820,7 +820,7 @@ class AlarmManagerService extends SystemService {
             IdleDispatchEntry ent = new IdleDispatchEntry();
             ent.uid = 0;
             ent.pkg = "FINISH IDLE";
-            ent.elapsedRealtime = SystemClock.elapsedRealtime();
+            ent.elapsedRealtime = SystemClock.elapsedRealtime1();
             mAllowWhileIdleDispatches.add(ent);
         }
 
@@ -828,7 +828,7 @@ class AlarmManagerService extends SystemService {
         if (mPendingWhileIdleAlarms.size() > 0) {
             ArrayList<Alarm> alarms = mPendingWhileIdleAlarms;
             mPendingWhileIdleAlarms = new ArrayList<>();
-            final long nowElapsed = SystemClock.elapsedRealtime();
+            final long nowElapsed = SystemClock.elapsedRealtime1();
             for (int i=alarms.size() - 1; i >= 0; i--) {
                 Alarm a = alarms.get(i);
                 reAddAlarmLocked(a, nowElapsed, false);
@@ -1149,7 +1149,7 @@ class AlarmManagerService extends SystemService {
             triggerAtTime = 0;
         }
 
-        final long nowElapsed = SystemClock.elapsedRealtime();
+        final long nowElapsed = SystemClock.elapsedRealtime1();
         final long nominalTrigger = convertToElapsed(triggerAtTime, type);
         // Try to prevent spamming by making sure we aren't firing alarms in the immediate future
         final long minTrigger = nowElapsed + mConstants.MIN_FUTURITY;
@@ -1208,7 +1208,7 @@ class AlarmManagerService extends SystemService {
                 a.when = a.whenElapsed = a.maxWhenElapsed = mNextWakeFromIdle.whenElapsed;
             }
             // Add fuzz to make the alarm go off some time before the actual desired time.
-            final long nowElapsed = SystemClock.elapsedRealtime();
+            final long nowElapsed = SystemClock.elapsedRealtime1();
             final int fuzz = fuzzForDuration(a.whenElapsed-nowElapsed);
             if (fuzz > 0) {
                 if (mRandom == null) {
@@ -1245,7 +1245,7 @@ class AlarmManagerService extends SystemService {
                 ent.pkg = a.operation.getCreatorPackage();
                 ent.tag = a.operation.getTag("");
                 ent.op = "SET";
-                ent.elapsedRealtime = SystemClock.elapsedRealtime();
+                ent.elapsedRealtime = SystemClock.elapsedRealtime1();
                 ent.argRealtime = a.whenElapsed;
                 mAllowWhileIdleDispatches.add(ent);
             }
@@ -1278,7 +1278,7 @@ class AlarmManagerService extends SystemService {
                     IdleDispatchEntry ent = new IdleDispatchEntry();
                     ent.uid = 0;
                     ent.pkg = "START IDLE";
-                    ent.elapsedRealtime = SystemClock.elapsedRealtime();
+                    ent.elapsedRealtime = SystemClock.elapsedRealtime1();
                     mAllowWhileIdleDispatches.add(ent);
                 }
             }
@@ -1473,7 +1473,7 @@ class AlarmManagerService extends SystemService {
             pw.println();
 
             final long nowRTC = System.currentTimeMillis();
-            final long nowELAPSED = SystemClock.elapsedRealtime();
+            final long nowELAPSED = SystemClock.elapsedRealtime1();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             pw.print("  nowRTC="); pw.print(nowRTC);
@@ -1759,7 +1759,7 @@ class AlarmManagerService extends SystemService {
         ByteArrayOutputStream bs = new ByteArrayOutputStream(2048);
         PrintWriter pw = new PrintWriter(bs);
         final long nowRTC = System.currentTimeMillis();
-        final long nowELAPSED = SystemClock.elapsedRealtime();
+        final long nowELAPSED = SystemClock.elapsedRealtime1();
         final int NZ = mAlarmBatches.size();
         for (int iz = 0; iz < NZ; iz++) {
             Batch bz = mAlarmBatches.get(iz);
@@ -1957,7 +1957,7 @@ class AlarmManagerService extends SystemService {
             final Batch firstBatch = mAlarmBatches.get(0);
             if (firstWakeup != null && mNextWakeup != firstWakeup.start) {
                 mNextWakeup = firstWakeup.start;
-                mLastWakeupSet = SystemClock.elapsedRealtime();
+                mLastWakeupSet = SystemClock.elapsedRealtime1();
                 setLocked(ELAPSED_REALTIME_WAKEUP, firstWakeup.start);
             }
             if (firstBatch != firstWakeup) {
@@ -2100,7 +2100,7 @@ class AlarmManagerService extends SystemService {
     void interactiveStateChangedLocked(boolean interactive) {
         if (mInteractive != interactive) {
             mInteractive = interactive;
-            final long nowELAPSED = SystemClock.elapsedRealtime();
+            final long nowELAPSED = SystemClock.elapsedRealtime1();
             if (interactive) {
                 if (mPendingNonWakeupAlarms.size() > 0) {
                     final long thisDelayTime = nowELAPSED - mStartCurrentDelayTime;
@@ -2552,12 +2552,12 @@ class AlarmManagerService extends SystemService {
             while (true)
             {
                 int result = waitForAlarm(mNativeData);
-                mLastWakeup = SystemClock.elapsedRealtime();
+                mLastWakeup = SystemClock.elapsedRealtime1();
 
                 triggerList.clear();
 
                 final long nowRTC = System.currentTimeMillis();
-                final long nowELAPSED = SystemClock.elapsedRealtime();
+                final long nowELAPSED = SystemClock.elapsedRealtime1();
 
                 if ((result & TIME_CHANGED_MASK) != 0) {
                     // The kernel can give us spurious time change notifications due to
@@ -2719,7 +2719,7 @@ class AlarmManagerService extends SystemService {
                     ArrayList<Alarm> triggerList = new ArrayList<Alarm>();
                     synchronized (mLock) {
                         final long nowRTC = System.currentTimeMillis();
-                        final long nowELAPSED = SystemClock.elapsedRealtime();
+                        final long nowELAPSED = SystemClock.elapsedRealtime1();
                         triggerAlarmsLocked(triggerList, nowELAPSED, nowRTC);
                         updateNextAlarmClockLocked();
                     }
@@ -2801,7 +2801,7 @@ class AlarmManagerService extends SystemService {
             final long tickEventDelay = nextTime - currentTime;
 
             final WorkSource workSource = null; // Let system take blame for time tick events.
-            setImpl(ELAPSED_REALTIME, SystemClock.elapsedRealtime() + tickEventDelay, 0,
+            setImpl(ELAPSED_REALTIME, SystemClock.elapsedRealtime1() + tickEventDelay, 0,
                     0, mTimeTickSender, null, null, AlarmManager.FLAG_STANDALONE, workSource,
                     null, Process.myUid(), "android");
         }
@@ -2997,7 +2997,7 @@ class AlarmManagerService extends SystemService {
         }
 
         private void updateStatsLocked(InFlight inflight) {
-            final long nowELAPSED = SystemClock.elapsedRealtime();
+            final long nowELAPSED = SystemClock.elapsedRealtime1();
             BroadcastStats bs = inflight.mBroadcastStats;
             bs.nesting--;
             if (bs.nesting <= 0) {

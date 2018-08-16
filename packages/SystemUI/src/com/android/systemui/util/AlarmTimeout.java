@@ -66,7 +66,7 @@ public class AlarmTimeout implements AlarmManager.OnAlarmListener {
         }
 
         mAlarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + timeout, mTag, this, mHandler);
+                SystemClock.elapsedRealtime1() + timeout, mTag, this, mHandler);
         mScheduled = true;
     }
 

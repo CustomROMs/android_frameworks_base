@@ -1861,19 +1861,8 @@ public class ActivityManagerService extends IActivityManager.Stub
                     d.show();
                 }
             } break;
-            case SHOW_FINGERPRINT_ERROR_UI_MSG: {
-                if (mShowDialogs) {
-                    AlertDialog d = new BaseErrorDialog(mUiContext);
-                    d.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ERROR);
-                    d.setCancelable(false);
-                    d.setTitle(mUiContext.getText(R.string.android_system_label));
-                    d.setMessage(mContext.getString(R.string.lineage_system_error_manufacturer,
-                            SystemProperties.get("ro.build.fingerprint").split("/")[3]));
-                    d.setButton(DialogInterface.BUTTON_POSITIVE, mUiContext.getText(R.string.ok),
-                            obtainMessage(DISMISS_DIALOG_UI_MSG, d));
-                    d.show();
-                }
-            } break;
+            case SHOW_FINGERPRINT_ERROR_UI_MSG:
+                break;
             case SHOW_COMPAT_MODE_DIALOG_UI_MSG: {
                 synchronized (ActivityManagerService.this) {
                     ActivityRecord ar = (ActivityRecord) msg.obj;
