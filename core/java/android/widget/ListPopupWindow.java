@@ -611,6 +611,10 @@ public class ListPopupWindow implements ShowableListMenu {
     @Override
     public void show() {
         int height = buildDropDown();
+        if (height == 0) {
+            //do nothing if there are no item to show.
+            return;
+        }
 
         final boolean noInputMethod = isInputMethodNotNeeded();
         mPopup.setAllowScrollingAnchorParent(!noInputMethod);
