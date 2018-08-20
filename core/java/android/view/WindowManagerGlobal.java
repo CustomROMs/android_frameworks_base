@@ -534,12 +534,7 @@ public final class WindowManagerGlobal {
         synchronized (mLock) {
             for (int i = mRoots.size() - 1; i >= 0; --i) {
                 final ViewRootImpl root = mRoots.get(i);
-                if (root.mView != null && root.getHostVisibility() == View.VISIBLE
-                        && root.mAttachInfo.mThreadedRenderer != null) {
-                    hasVisibleWindows = true;
-                } else {
-                    root.destroyHardwareResources();
-                }
+                hasVisibleWindows |= root.doTrimForeground();
             }
         }
         if (!hasVisibleWindows) {

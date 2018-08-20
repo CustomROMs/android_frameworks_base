@@ -626,6 +626,17 @@ public final class ViewRootImpl implements ViewParent,
         }
     }
 
+    public boolean doTrimForeground() {
+        synchronized(this) {
+            if (mView != null && getHostVisibility() == View.VISIBLE
+                    && mAttachInfo.mThreadedRenderer != null) {
+                return true;
+            } else {
+                destroyHardwareResources();
+            }
+            return false;
+        }
+    }
     /**
      * We have one child
      */
