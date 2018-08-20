@@ -34,6 +34,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.os.SystemProperties;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -347,6 +348,9 @@ public class Toast {
     private static class TN extends ITransientNotification.Stub {
         private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
 
+        private static final boolean mToasticonSwitch =
+                SystemProperties.getBoolean("ro.toast.icon_show", true);
+
         private static final int SHOW = 0;
         private static final int HIDE = 1;
         private static final int CANCEL = 2;
@@ -467,15 +471,17 @@ public class Toast {
                 }
 
                 ImageView appIcon = (ImageView) mView.findViewById(android.R.id.icon);
-                if (appIcon != null) {
-                    PackageManager pm = context.getPackageManager();
-                    Drawable icon = null;
-                    try {
-                        icon = pm.getApplicationIcon(packageName);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        // nothing to do
+                if (mToasticonSwitch) {
+                    if (appIcon != null) {
+                        PackageManager pm = context.getPackageManager();
+                        Drawable icon = null;
+                        try {
+                            icon = pm.getApplicationIcon(packageName);
+                        } catch (PackageManager.NameNotFoundException e) {
+                            // nothing to do
+                        }
+                        appIcon.setImageDrawable(icon);
                     }
-                    appIcon.setImageDrawable(icon);
                 }
                 mWM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
                 // We can resolve the Gravity here by using the Locale for getting
