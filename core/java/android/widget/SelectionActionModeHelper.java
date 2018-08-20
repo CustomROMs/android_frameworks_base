@@ -446,6 +446,11 @@ final class SelectionActionModeHelper {
                 @SelectionEvent.ActionType int action,
                 @Nullable TextClassification classification) {
             try {
+                if (mText == null || mDelegate == null) {
+                    Log.d(LOG_TAG, "logSelectionAction not logged.");
+                    return;
+                }
+
                 Preconditions.checkArgumentInRange(start, 0, mText.length(), "start");
                 Preconditions.checkArgumentInRange(end, start, mText.length(), "end");
                 int[] wordIndices = getWordDelta(start, end);
