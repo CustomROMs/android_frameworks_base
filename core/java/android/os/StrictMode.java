@@ -1663,11 +1663,14 @@ public final class StrictMode {
                     // to disk, thus violating policy, thus requiring logging, etc...
                     // We restore the current policy below, in the finally block.
                     setThreadPolicyMask(0);
-
-                    ActivityManager.getService().handleApplicationStrictModeViolation(
-                        RuntimeInit.getApplicationObject(),
-                        violationMaskSubset,
-                        info);
+                    if (ActivityManager.getService() == null) {
+                        return;
+                    } else {
+                        ActivityManager.getService().handleApplicationStrictModeViolation(
+                            RuntimeInit.getApplicationObject(),
+                            violationMaskSubset,
+                            info);
+                    }
                 } catch (RemoteException e) {
                     if (e instanceof DeadObjectException) {
                         // System process is dead; ignore
