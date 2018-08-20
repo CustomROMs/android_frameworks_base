@@ -5246,7 +5246,7 @@ public final class ActivityThread {
         if (dhd.managed) {
             try {
                 Debug.dumpHprofData(dhd.path, dhd.fd.getFileDescriptor());
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 Slog.w(TAG, "Managed heap dump failed on path " + dhd.path
                         + " -- can the process access this path?");
             } finally {
