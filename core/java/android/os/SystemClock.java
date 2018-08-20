@@ -176,12 +176,26 @@ public final class SystemClock {
     native public static long elapsedRealtime();
 
     /**
+     * Returns milliseconds since boot, including time spent in sleep.
+     *
+     * @return elapsed milliseconds since boot.
+     */
+    native public static long elapsedRealtime1();
+
+    /**
      * Returns nanoseconds since boot, including time spent in sleep.
      *
      * @return elapsed nanoseconds since boot.
      */
     @CriticalNative
     public static native long elapsedRealtimeNanos();
+
+    /**
+     * Returns nanoseconds since boot, including time spent in sleep.
+     *
+     * @return elapsed nanoseconds since boot.
+     */
+    public static native long elapsedRealtimeNanos1();
 
     /**
      * Returns milliseconds running in the current thread.

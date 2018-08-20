@@ -88,6 +88,8 @@ static const JNINativeMethod gMethods[] = {
     { "uptimeMillis", "()J", (void*) uptimeMillis },
     { "elapsedRealtime", "()J", (void*) elapsedRealtime },
     { "elapsedRealtimeNanos", "()J", (void*) elapsedRealtimeNano },
+    { "elapsedRealtime1", "()J", (void*) elapsedRealtime1 },
+    { "elapsedRealtimeNanos1", "()J", (void*) elapsedRealtimeNano1 },
 
     // SystemClock doesn't have an implementation for these that we can directly call
     { "currentThreadTimeMillis", "()J",
