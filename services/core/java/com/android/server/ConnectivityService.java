@@ -4027,10 +4027,12 @@ public class ConnectivityService extends IConnectivityManager.Stub
             mPendingIntent = null;
             enforceRequestCountLimit();
 
-            try {
-                mBinder.linkToDeath(this, 0);
-            } catch (RemoteException e) {
-                binderDied();
+            if (mBinder != null) {
+               try {
+                   mBinder.linkToDeath(this, 0);
+               } catch (RemoteException e) {
+                   binderDied();
+               }
             }
         }
 
