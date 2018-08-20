@@ -385,7 +385,17 @@ public class ResolverActivity extends Activity {
     }
 
     protected String getReferrerPackageName() {
-        final Uri referrer = getReferrer();
+        Uri referrer = null;
+        try {
+            referrer = getReferrer();
+        } catch(RuntimeException e) {
+            if (e.getCause() instanceof ClassNotFoundException) {
+                Log.d(TAG, "Error getReferrer\n" + e);
+                return null;
+            } else {
+                throw new RuntimeException(e);
+            }
+        }
         if (referrer != null && "android-app".equals(referrer.getScheme())) {
             return referrer.getHost();
         }
