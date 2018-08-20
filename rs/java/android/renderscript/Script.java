@@ -450,6 +450,10 @@ public class Script extends BaseObj {
      *
      */
     public void setVar(int index, FieldPacker v, Element e, int[] dims) {
+        if (dims == null) {
+            throw new RSIllegalArgumentException(
+                "dims should to be non-null.");
+        }
         mRS.nScriptSetVarVE(getID(mRS), index, v.getData(), e.getID(mRS), dims);
     }
 
