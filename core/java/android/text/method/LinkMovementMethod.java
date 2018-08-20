@@ -206,8 +206,11 @@ public class LinkMovementMethod extends ScrollingMovementMethod {
             y += widget.getScrollY();
 
             Layout layout = widget.getLayout();
-            int line = layout.getLineForVertical(y);
-            int off = layout.getOffsetForHorizontal(line, x);
+            int line = getLineForVertical(layout, y);
+            int off = -1;
+            if (line >= 0) {
+                off = layout.getOffsetForHorizontal(line, x);
+            }
 
             ClickableSpan[] links = buffer.getSpans(off, off, ClickableSpan.class);
 
@@ -226,6 +229,18 @@ public class LinkMovementMethod extends ScrollingMovementMethod {
         }
 
         return super.onTouchEvent(widget, buffer, event);
+    }
+
+    private int getLineForVertical(Layout layout, int vertical) {
+        int lineCount = layout.getLineCount() - 1;
+        if (lineCount < 0) return -1;
+        int bottom = layout.getLineBottom(lineCount);
+        int top = layout.getLineTop(0);
+        if (bottom < vertical || top > vertical) {
+            return -1;
+        }
+
+       return layout.getLineForVertical(vertical);
     }
 
     @Override
