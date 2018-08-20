@@ -76,6 +76,10 @@
         android:key="airplane"
         android:title="@string/status_bar_airplane" />
 
+    <com.android.systemui.tuner.StatusBarSwitch
+        android:key="su"
+        android:title="@string/status_bar_su" />
+
     <!-- other weird signal stuff -->
 
     <com.android.systemui.tuner.BatteryPreference
