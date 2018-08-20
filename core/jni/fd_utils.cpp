@@ -112,6 +112,16 @@ bool FileDescriptorWhitelist::IsAllowed(const std::string& path) const {
     return true;
   }
 
+  if (access("/system/framework/XposedBridge.jar", F_OK ) != -1) {
+    // Xposed-powered Zygote might read from extensions other than .apk
+    // so skip extension check
+    // ALOGW("Xposed detected, loosening up Zygote fd check!");
+    static const char* kDataAppPrefix = "/data/app/";
+    if (android::base::StartsWith(path, kDataAppPrefix)) {
+      return true;
+    }
+  }
+
   return false;
 }
 
