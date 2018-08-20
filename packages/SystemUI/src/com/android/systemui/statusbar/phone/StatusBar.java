@@ -7764,6 +7764,13 @@ public class StatusBar extends SystemUI implements DemoMode,
             return false;
         }
 
+        if (!panelsEnabled()) {
+            if (DEBUG) {
+                Log.d(TAG, "No peeking: disabled panel : " + sbn.getKey());
+            }
+            return false;
+        }
+
         boolean inUse = mPowerManager.isScreenOn() && !mSystemServicesProxy.isDreaming();
 
         if (!inUse && !isDozing()) {
