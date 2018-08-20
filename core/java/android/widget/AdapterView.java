@@ -528,7 +528,9 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
      */
     @Override
     public void removeView(View child) {
-        throw new UnsupportedOperationException("removeView(View) is not supported in AdapterView");
+        if (child == null) {
+            throw new UnsupportedOperationException("removeView(View) is not supported in AdapterView");
+        }
     }
 
     /**
