@@ -385,6 +385,12 @@ public class VolumeInfo implements Parcelable {
                 maxFileSize = 4294967295L;
             }
 
+            if ("exfat".equals(fsType)) {
+                // Now, the max file size is 256TB.
+                // TODO: the max file size maybe support to 16EB.
+                maxFileSize = 256L * 1024 * 1024 * 1024 * 1024;
+            }
+
         } else {
             throw new IllegalStateException("Unexpected volume type " + type);
         }
