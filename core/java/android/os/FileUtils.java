@@ -436,6 +436,7 @@ public class FileUtils {
     }
 
     public static boolean contains(String dirPath, String filePath) {
+        if (dirPath == null || filePath == null) return false;
         if (dirPath.equals(filePath)) {
             return true;
         }
