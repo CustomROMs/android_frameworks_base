@@ -1321,6 +1321,9 @@
     <!-- Name of the airplane status bar icon. -->
     <string name="status_bar_airplane">Airplane mode</string>
 
+    <!-- Name of the su status bar icon. -->
+    <string name="status_bar_su">Superuser</string>
+
     <!-- Description for adding  a quick settings tile -->
     <string name="add_tile">Add tile</string>
 
