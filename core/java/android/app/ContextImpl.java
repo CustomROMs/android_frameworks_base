@@ -2417,10 +2417,14 @@ class ContextImpl extends Context {
     private void checkMode(int mode) {
         if (getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.N) {
             if ((mode & MODE_WORLD_READABLE) != 0) {
-                throw new SecurityException("MODE_WORLD_READABLE no longer supported");
+                if (mode == 0) {
+                    throw new SecurityException("MODE_WORLD_READABLE no longer supported");
+                }
             }
             if ((mode & MODE_WORLD_WRITEABLE) != 0) {
-                throw new SecurityException("MODE_WORLD_WRITEABLE no longer supported");
+                if (mode == 0) {
+                    throw new SecurityException("MODE_WORLD_WRITEABLE no longer supported");
+                }
             }
         }
     }
