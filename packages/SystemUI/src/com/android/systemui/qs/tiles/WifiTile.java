@@ -142,6 +142,7 @@ public class WifiTile extends QSTileImpl<SignalState> {
     protected void handleUpdateState(SignalState state, Object arg) {
         if (DEBUG) Log.d(TAG, "handleUpdateState arg=" + arg);
         CallbackInfo cb = (CallbackInfo) arg;
+        if (mSignalCallback == null) return;
         if (cb == null) {
             cb = mSignalCallback.mInfo;
         }
