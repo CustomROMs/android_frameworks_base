@@ -15,13 +15,13 @@
  */
 #define LOG_TAG "SensorManager"
 
-#include <nativehelper/JNIHelp.h>
+#include "JNIHelp.h"
 #include "android_os_MessageQueue.h"
 #include "core_jni_helpers.h"
 #include "jni.h"
 
-#include <nativehelper/ScopedUtfChars.h>
-#include <nativehelper/ScopedLocalRef.h>
+#include <ScopedUtfChars.h>
+#include <ScopedLocalRef.h>
 #include <android_runtime/AndroidRuntime.h>
 #include <android_runtime/android_hardware_HardwareBuffer.h>
 #include <vndk/hardware_buffer.h>
@@ -238,58 +238,21 @@ static jboolean nativeIsDataInjectionEnabled(JNIEnv *_env, jclass _this, jlong s
 
 static jint nativeCreateDirectChannel(JNIEnv *_env, jclass _this, jlong sensorManager,
         jlong size, jint channelType, jint fd, jobject hardwareBufferObj) {
-    const native_handle_t *nativeHandle = nullptr;
-    NATIVE_HANDLE_DECLARE_STORAGE(ashmemHandle, 1, 0);
-
-    if (channelType == SENSOR_DIRECT_MEM_TYPE_ASHMEM) {
-        native_handle_t *handle = native_handle_init(ashmemHandle, 1, 0);
-        handle->data[0] = fd;
-        nativeHandle = handle;
-    } else if (channelType == SENSOR_DIRECT_MEM_TYPE_GRALLOC) {
-        AHardwareBuffer *hardwareBuffer =
-                android_hardware_HardwareBuffer_getNativeHardwareBuffer(_env, hardwareBufferObj);
-        if (hardwareBuffer != nullptr) {
-            nativeHandle = AHardwareBuffer_getNativeHandle(hardwareBuffer);
-        }
-    }
-
-    if (nativeHandle == nullptr) {
-        return BAD_VALUE;
-    }
-
-    SensorManager* mgr = reinterpret_cast<SensorManager*>(sensorManager);
-    return mgr->createDirectChannel(size, channelType, nativeHandle);
+    return BAD_VALUE;
 }
 
 static void nativeDestroyDirectChannel(JNIEnv *_env, jclass _this, jlong sensorManager,
         jint channelHandle) {
-    SensorManager* mgr = reinterpret_cast<SensorManager*>(sensorManager);
-    mgr->destroyDirectChannel(channelHandle);
 }
 
 static jint nativeConfigDirectChannel(JNIEnv *_env, jclass _this, jlong sensorManager,
         jint channelHandle, jint sensorHandle, jint rate) {
-    SensorManager* mgr = reinterpret_cast<SensorManager*>(sensorManager);
-    return mgr->configureDirectChannel(channelHandle, sensorHandle, rate);
+    return BAD_VALUE;
 }
 
 static jint nativeSetOperationParameter(JNIEnv *_env, jclass _this, jlong sensorManager,
-        jint handle, jint type, jfloatArray floats, jintArray ints) {
-    SensorManager* mgr = reinterpret_cast<SensorManager*>(sensorManager);
-    Vector<float> floatVector;
-    Vector<int32_t> int32Vector;
-
-    if (floats != nullptr) {
-        floatVector.resize(_env->GetArrayLength(floats));
-        _env->GetFloatArrayRegion(floats, 0, _env->GetArrayLength(floats), floatVector.editArray());
-    }
-
-    if (ints != nullptr) {
-        int32Vector.resize(_env->GetArrayLength(ints));
-        _env->GetIntArrayRegion(ints, 0, _env->GetArrayLength(ints), int32Vector.editArray());
-    }
-
-    return mgr->setOperationParameter(handle, type, floatVector, int32Vector);
+        jint type, jfloatArray floats, jintArray ints) {
+    return BAD_VALUE;
 }
 
 //----------------------------------------------------------------------------
@@ -516,7 +479,7 @@ static const JNINativeMethod gSystemSensorManagerMethods[] = {
             (void*)nativeConfigDirectChannel },
 
     {"nativeSetOperationParameter",
-            "(JII[F[I)I",
+            "(JI[F[I)I",
             (void*)nativeSetOperationParameter },
 };
 

@@ -22,12 +22,6 @@ ndk_library {
 
 cc_defaults {
     name: "libandroid_defaults",
-    cflags: [
-        "-Wall",
-        "-Werror",
-        "-Wunused",
-        "-Wunreachable-code",
-    ],
 }
 
 cc_library_shared {

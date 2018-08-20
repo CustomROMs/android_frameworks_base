@@ -77,7 +77,6 @@ LOCAL_SHARED_LIBRARIES += \
     libinputservice \
     libschedulerservicehidl \
     libsensorservice \
-    libsensorservicehidl \
     libskia \
     libgui \
     libusbhost \

@@ -88,10 +88,12 @@ public class PackageManagerServiceCompilerMapping {
                 // Check validity, ignore result.
                 getAndCheckValidity(reason);
             } catch (Exception exc) {
+/*
                 if (toThrow == null) {
                     toThrow = new IllegalStateException("PMS compiler filter settings are bad.");
                 }
                 toThrow.addSuppressed(exc);
+*/
             }
         }
 
