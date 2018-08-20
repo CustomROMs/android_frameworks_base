@@ -9158,7 +9158,7 @@ public class PackageManagerService extends IPackageManager.Stub
         int fileCount = 0;
         for (File file : files) {
             final boolean isPackage = (isApkFile(file) || file.isDirectory())
-                    && !PackageInstallerService.isStageName(file.getName());
+                    && !PackageHelper.isStageName(file.getName());
             if (!isPackage) {
                 // Ignore entries which are not packages
                 continue;
@@ -23531,7 +23531,7 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
             synchronized (mPackages) {
                 for (String cid : list) {
                     // Leave stages untouched for now; installer service owns them
-                    if (PackageInstallerService.isStageName(cid)) continue;
+                    if (PackageHelper.isStageName(cid)) continue;
 
                     if (DEBUG_SD_INSTALL)
                         Log.i(TAG, "Processing container " + cid);
@@ -24043,7 +24043,7 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
                 Environment.getDataAppDirectory(volumeUuid));
         for (File file : files) {
             final boolean isPackage = (isApkFile(file) || file.isDirectory())
-                    && !PackageInstallerService.isStageName(file.getName());
+                    && !PackageHelper.isStageName(file.getName());
             if (!isPackage) {
                 // Ignore entries which are not packages
                 continue;

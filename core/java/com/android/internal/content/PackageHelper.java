@@ -649,6 +649,15 @@ public class PackageHelper {
         }
     }
 
+    public static long calculateRawApkSize(PackageLite pkg) {
+        long sizeBytes = 0;
+        for (String codePath : pkg.getAllCodePaths()) {
+            final File codeFile = new File(codePath);
+            sizeBytes += codeFile.length();
+        }
+        return sizeBytes;
+    }
+
     public static long calculateInstalledSize(PackageLite pkg, NativeLibraryHelper.Handle handle,
             boolean isForwardLocked, String abiOverride) throws IOException {
         long sizeBytes = 0;
@@ -667,6 +676,13 @@ public class PackageHelper {
         sizeBytes += NativeLibraryHelper.sumNativeBinariesWithOverride(handle, abiOverride);
 
         return sizeBytes;
+    }
+
+    public static boolean isStageName(String name) {
+        final boolean isFile = name.startsWith("vmdl") && name.endsWith(".tmp");
+        final boolean isContainer = name.startsWith("smdl") && name.endsWith(".tmp");
+        final boolean isLegacyContainer = name.startsWith("smdl2tmp");
+        return isFile || isContainer || isLegacyContainer;
     }
 
     public static String replaceEnd(String str, String before, String after) {

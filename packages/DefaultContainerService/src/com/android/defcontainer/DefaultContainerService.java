@@ -164,7 +164,7 @@ public class DefaultContainerService extends IntentService {
 
             final File packageFile = new File(packagePath);
             final PackageParser.PackageLite pkg;
-            final long sizeBytes;
+            long sizeBytes;
             try {
                 pkg = PackageParser.parsePackageLite(packageFile, 0);
                 sizeBytes = PackageHelper.calculateInstalledSize(pkg, isForwardLocked, abiOverride);
@@ -183,6 +183,9 @@ public class DefaultContainerService extends IntentService {
             final int recommendedInstallLocation;
             final long token = Binder.clearCallingIdentity();
             try {
+                if (PackageHelper.isStageName(pkg.baseCodePath)) {
+                    sizeBytes -= PackageHelper.calculateRawApkSize(pkg);
+                }
                 recommendedInstallLocation = PackageHelper.resolveInstallLocation(context,
                         pkg.packageName, pkg.installLocation, sizeBytes, flags);
             } finally {
