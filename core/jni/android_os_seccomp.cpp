@@ -22,15 +22,7 @@
 #include "seccomp_policy.h"
 
 static void Seccomp_setPolicy(JNIEnv* /*env*/) {
-    if (security_getenforce() == 0) {
-        ALOGI("seccomp disabled by setenforce 0");
-        return;
-    }
-
-    if (!set_seccomp_filter()) {
-        ALOGE("Failed to set seccomp policy - killing");
-        exit(1);
-    }
+    return;
 }
 
 static const JNINativeMethod method_table[] = {
