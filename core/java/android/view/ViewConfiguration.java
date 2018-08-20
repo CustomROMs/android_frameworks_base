@@ -62,7 +62,7 @@ public class ViewConfiguration {
      * Defines the default duration in milliseconds before a press turns into
      * a long press
      */
-    private static final int DEFAULT_LONG_PRESS_TIMEOUT = 500;
+    private static final int DEFAULT_LONG_PRESS_TIMEOUT = 250;
 
     /**
      * Defines the default duration in milliseconds between the first tap's up event and the second
@@ -80,7 +80,7 @@ public class ViewConfiguration {
      * appropriate button to bring up the global actions dialog (power off,
      * lock screen, etc).
      */
-    private static final int GLOBAL_ACTIONS_KEY_TIMEOUT = 500;
+    private static final int GLOBAL_ACTIONS_KEY_TIMEOUT = 250;
 
     /**
      * Defines the duration in milliseconds a user needs to hold down the
@@ -101,7 +101,7 @@ public class ViewConfiguration {
      * is a jump tap. If the user does not complete the jump tap within this interval, it is
      * considered to be a tap.
      */
-    private static final int JUMP_TAP_TIMEOUT = 500;
+    private static final int JUMP_TAP_TIMEOUT = 250;
 
     /**
      * Defines the duration in milliseconds between the first tap's up event and
