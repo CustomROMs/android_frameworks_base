@@ -68,7 +68,7 @@ public class FieldPacker {
     }
 
     public void subalign(int v) {
-        if ((v & (v - 1)) != 0) {
+        if ((v <= 0) || (v & (v - 1)) != 0) {
             throw new RSIllegalArgumentException("argument must be a non-negative non-zero power of 2: " + v);
         }
 
