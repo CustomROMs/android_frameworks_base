@@ -61,6 +61,12 @@ public class QSContainerImpl extends FrameLayout {
 
     @Override
     public boolean performClick() {
+        if (!isInTouchMode()) {
+            // Do not consume Click event if it is not in Touch Mode in order to
+            // handle SPACE key which is mapped as unlocking in StatusBarWindowView.
+            return false;
+        }
+
         // Want to receive clicks so missing QQS tiles doesn't cause collapse, but
         // don't want to do anything with them.
         return true;
