@@ -28,6 +28,8 @@ cc_defaults {
         // TODO: Linear blending should be enabled by default, but we are
         // TODO: making it an opt-in while it's a work in progress
         //"-DANDROID_ENABLE_LINEAR_BLENDING",
+
+        "-DREQUIRES_SYNCHRONOUS_SETSURFACE",
     ],
 
     include_dirs: [
