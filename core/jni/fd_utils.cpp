@@ -33,6 +33,7 @@
 
 // Static whitelist of open paths that the zygote is allowed to keep open.
 static const char* kPathWhitelist[] = {
+  "/dev/alarm",
   "/dev/null",
   "/dev/socket/zygote",
   "/dev/socket/zygote_secondary",
@@ -130,17 +131,9 @@ FileDescriptorInfo* FileDescriptorInfo::CreateFromFd(int fd) {
     return NULL;
   }
 
-  const FileDescriptorWhitelist* whitelist = FileDescriptorWhitelist::Get();
-
   if (S_ISSOCK(f_stat.st_mode)) {
     std::string socket_name;
     if (!GetSocketName(fd, &socket_name)) {
-      return NULL;
-    }
-
-    if (!whitelist->IsAllowed(socket_name)) {
-      LOG(ERROR) << "Socket name not whitelisted : " << socket_name
-                 << " (fd=" << fd << ")";
       return NULL;
     }
 
@@ -165,11 +158,6 @@ FileDescriptorInfo* FileDescriptorInfo::CreateFromFd(int fd) {
   std::string file_path;
   const std::string fd_path = android::base::StringPrintf("/proc/self/fd/%d", fd);
   if (!android::base::Readlink(fd_path, &file_path)) {
-    return NULL;
-  }
-
-  if (!whitelist->IsAllowed(file_path)) {
-    LOG(ERROR) << "Not whitelisted : " << file_path;
     return NULL;
   }
 
