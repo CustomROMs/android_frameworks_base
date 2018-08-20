@@ -110,7 +110,7 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
     private static final String TAG = "KeyguardUpdateMonitor";
     private static final boolean DEBUG = KeyguardConstants.DEBUG;
     private static final boolean DEBUG_SIM_STATES = KeyguardConstants.DEBUG_SIM_STATES;
-    private static final int LOW_BATTERY_THRESHOLD = 20;
+    private static final int LOW_BATTERY_THRESHOLD = 10;
 
     private static final String ACTION_FACE_UNLOCK_STARTED
             = "com.android.facelock.FACE_UNLOCK_STARTED";
