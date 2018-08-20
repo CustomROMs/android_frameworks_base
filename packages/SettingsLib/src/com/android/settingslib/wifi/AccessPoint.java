@@ -176,7 +176,7 @@ public class AccessPoint implements Comparable<AccessPoint> {
      */
     public static final int SIGNAL_LEVELS = 5;
 
-    public static final int UNREACHABLE_RSSI = Integer.MIN_VALUE;
+    public static final int UNREACHABLE_RSSI = WifiConfiguration.INVALID_RSSI;
 
     private final Context mContext;
 
@@ -964,7 +964,11 @@ public class AccessPoint implements Comparable<AccessPoint> {
             // Might be an ephemeral connection with no WifiConfiguration. Try matching on SSID.
             // (Note that we only do this if the WifiConfiguration explicitly equals INVALID).
             // TODO: Handle hex string SSIDs.
-            return ssid.equals(removeDoubleQuotes(info.getSSID()));
+            if (!info.isEphemeral() && config == null) {
+                return false;
+            } else {
+                return ssid.equals(removeDoubleQuotes(info.getSSID()));
+            }
         }
     }
 
