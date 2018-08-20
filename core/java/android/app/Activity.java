@@ -5423,6 +5423,7 @@ public class Activity extends ContextThemeWrapper
             ViewManager wm = getWindowManager();
             wm.addView(mDecor, getWindow().getAttributes());
             mWindowAdded = true;
+            DecorView.setAddedToWindow(mDecor);
         }
         mDecor.setVisibility(View.VISIBLE);
     }
