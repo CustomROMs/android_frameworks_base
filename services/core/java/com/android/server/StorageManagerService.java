@@ -1029,6 +1029,8 @@ class StorageManagerService extends IStorageManager.Stub
         String systemLocale;
         try {
             systemLocale = getField(StorageManager.SYSTEM_LOCALE_KEY);
+        } catch (IllegalStateException e) {
+            return;
         } catch (RemoteException e) {
             return;
         }
