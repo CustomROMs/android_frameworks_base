@@ -138,6 +138,10 @@ public final class ScriptIntrinsicLUT extends ScriptIntrinsic {
      * @param opt Options for clipping
      */
     public void forEach(Allocation ain, Allocation aout, Script.LaunchOptions opt) {
+        if (ain == null || aout == null) {
+            throw new RSIllegalArgumentException("ain or aout is required to be non-null.");
+        }
+
         if (mDirty) {
             mDirty = false;
             mTables.copyFromUnchecked(mCache);

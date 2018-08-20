@@ -242,6 +242,10 @@ public final class ScriptIntrinsicColorMatrix extends ScriptIntrinsic {
      * @param opt LaunchOptions for clipping
      */
     public void forEach(Allocation ain, Allocation aout, Script.LaunchOptions opt) {
+        if (ain == null || aout == null) {
+            throw new RSIllegalArgumentException("ain or aout is required to be non-null.");
+        }
+
         if (!ain.getElement().isCompatible(Element.U8(mRS)) &&
             !ain.getElement().isCompatible(Element.U8_2(mRS)) &&
             !ain.getElement().isCompatible(Element.U8_3(mRS)) &&

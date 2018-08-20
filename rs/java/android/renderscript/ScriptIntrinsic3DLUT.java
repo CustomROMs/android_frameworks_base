@@ -96,6 +96,10 @@ public final class ScriptIntrinsic3DLUT extends ScriptIntrinsic {
      * @param opt Launch options for kernel
      */
     public void forEach(Allocation ain, Allocation aout, Script.LaunchOptions opt) {
+        if (ain == null || aout == null) {
+            throw new RSIllegalArgumentException("ain or aout is required to be non-null.");
+        }
+
         forEach(0, ain, aout, null, opt);
     }
 
