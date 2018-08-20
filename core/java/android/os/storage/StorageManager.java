@@ -781,6 +781,8 @@ public class StorageManager {
             return true;
         } catch (IOException e) {
             return false;
+        } catch (IllegalArgumentException e) {
+            return false;
         }
     }
 
