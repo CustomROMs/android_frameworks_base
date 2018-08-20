@@ -166,7 +166,11 @@ void RenderProxy::updateSurface(const sp<Surface>& surface) {
     SETUP_TASK(updateSurface);
     args->context = mContext;
     args->surface = surface.get();
+#ifdef REQUIRES_SYNCHRONOUS_SETSURFACE
+    postAndWait(task);
+#else
     post(task);
+#endif
 }
 
 CREATE_BRIDGE2(pauseSurface, CanvasContext* context, Surface* surface) {
