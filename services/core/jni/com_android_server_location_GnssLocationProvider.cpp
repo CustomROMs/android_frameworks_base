@@ -1378,6 +1378,13 @@ static jboolean android_location_GnssLocationProvider_init(JNIEnv* env, jobject 
         ALOGI("Unable to Initialize AGnss Ril interface\n");
     }
 
+    sp<IAGnssRilCallback> agnssRilCbIface = new AGnssRilCallback();
+    if (agnssRilIface != nullptr) {
+        agnssRilIface->setCallback(agnssRilCbIface);
+    } else {
+        ALOGE("Unable to initialize AGNSS RIL interface\n");
+    }
+
     return JNI_TRUE;
 }
 
