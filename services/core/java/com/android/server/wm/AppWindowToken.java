@@ -255,6 +255,11 @@ class AppWindowToken extends WindowToken implements WindowManagerService.AppFree
     }
 
     void onFirstWindowDrawn(WindowState win, WindowStateAnimator winAnimator) {
+        // Child window may cause removing starting window early
+        if (win.isChildWindow() && !win.fillsDisplay()) {
+            return;
+        }
+
         firstWindowDrawn = true;
 
         // We now have a good window to show, remove dead placeholders
