@@ -278,11 +278,9 @@ public class MobileSignalController extends SignalController<
 
         String contentDescription = getStringIfExists(getContentDescription());
         String dataContentDescription = getStringIfExists(icons.mDataContentDescription);
-        final boolean dataDisabled = mCurrentState.iconGroup == TelephonyIcons.DATA_DISABLED
-                && mCurrentState.userSetup;
 
         // Show icon in QS when we are connected or data is disabled.
-        boolean showDataIcon = mCurrentState.dataConnected || dataDisabled;
+        boolean showDataIcon = mCurrentState.dataConnected;
         IconState statusIcon = new IconState(mCurrentState.enabled && !mCurrentState.airplaneMode,
                 getCurrentIconId(), contentDescription);
 
@@ -302,7 +300,7 @@ public class MobileSignalController extends SignalController<
         boolean activityOut = mCurrentState.dataConnected
                 && !mCurrentState.carrierNetworkChangeMode
                 && mCurrentState.activityOut;
-        showDataIcon &= mCurrentState.isDefault || dataDisabled;
+        showDataIcon &= mCurrentState.isDefault;
         int typeIcon = showDataIcon ? icons.mDataType : 0;
         callback.setMobileDataIndicators(statusIcon, qsIcon, typeIcon, qsTypeIcon,
                 activityIn, activityOut, dataContentDescription, description, icons.mIsWide,
@@ -463,8 +461,6 @@ public class MobileSignalController extends SignalController<
         mCurrentState.roaming = isRoaming();
         if (isCarrierNetworkChangeActive()) {
             mCurrentState.iconGroup = TelephonyIcons.CARRIER_NETWORK_CHANGE;
-        } else if (isDataDisabled()) {
-            mCurrentState.iconGroup = TelephonyIcons.DATA_DISABLED;
         }
         if (isEmergencyOnly() != mCurrentState.isEmergency) {
             mCurrentState.isEmergency = isEmergencyOnly();
@@ -477,10 +473,6 @@ public class MobileSignalController extends SignalController<
         }
 
         notifyListenersIfNecessary();
-    }
-
-    private boolean isDataDisabled() {
-        return !mPhone.getDataEnabled(mSubscriptionInfo.getSubscriptionId());
     }
 
     @VisibleForTesting
