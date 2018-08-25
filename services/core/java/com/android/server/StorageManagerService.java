@@ -1159,13 +1159,23 @@ class StorageManagerService extends IStorageManager.Stub
                 vol.mountFlags |= VolumeInfo.MOUNT_FLAG_PRIMARY;
                 vol.mountFlags |= VolumeInfo.MOUNT_FLAG_VISIBLE;
                 mHandler.obtainMessage(H_VOLUME_MOUNT, vol).sendToTarget();
+                return;
 
             } else if (Objects.equals(privateVol.fsUuid, mPrimaryStorageUuid)) {
                 Slog.v(TAG, "Found primary storage at " + vol);
                 vol.mountFlags |= VolumeInfo.MOUNT_FLAG_PRIMARY;
                 vol.mountFlags |= VolumeInfo.MOUNT_FLAG_VISIBLE;
                 mHandler.obtainMessage(H_VOLUME_MOUNT, vol).sendToTarget();
+                return;
             }
+
+            Slog.e(TAG, "emulated volume is not primary vol=" + vol);
+            if (SystemProperties.getBoolean(
+                    "ro.vold.primary_emulated", false))
+               vol.mountFlags |= VolumeInfo.MOUNT_FLAG_PRIMARY;
+            vol.mountFlags |= VolumeInfo.MOUNT_FLAG_VISIBLE;
+            mHandler.obtainMessage(H_VOLUME_MOUNT, vol).sendToTarget();
+
 
         } else if (vol.type == VolumeInfo.TYPE_PUBLIC) {
             // TODO: only look at first public partition
@@ -1186,10 +1196,11 @@ class StorageManagerService extends IStorageManager.Stub
             mHandler.obtainMessage(H_VOLUME_MOUNT, vol).sendToTarget();
 
         } else if (vol.type == VolumeInfo.TYPE_PRIVATE) {
+            Slog.e(TAG, "onVolumeCreatedLocked: vol.type == VolumeInfo.TYPE_PRIVATE vol=" + vol);
             mHandler.obtainMessage(H_VOLUME_MOUNT, vol).sendToTarget();
 
         } else {
-            Slog.d(TAG, "Skipping automatic mounting of " + vol);
+            Slog.e(TAG, "Skipping automatic mounting of " + vol);
         }
     }
 
