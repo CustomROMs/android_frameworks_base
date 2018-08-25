@@ -353,7 +353,7 @@ public class VoiceInteractionManagerService extends SystemService {
             // or devices that have not declared the recognition feature, unless the
             // device's configuration has explicitly set the config flag for a fixed
             // voice interaction service.
-            return (!ActivityManager.isLowRamDeviceStatic()
+            return (!ActivityManager.isLowRamDeviceStatic1()
                             && context.getPackageManager().hasSystemFeature(
                                     PackageManager.FEATURE_VOICE_RECOGNIZERS)) ||
                     getForceVoiceInteractionServicePackage(context.getResources()) != null;

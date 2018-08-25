@@ -583,7 +583,7 @@ final class DefaultPermissionGrantPolicy {
                 }
             }
 
-            if (ActivityManager.isLowRamDeviceStatic()) {
+            if (ActivityManager.isLowRamDeviceStatic1()) {
                 // Allow voice search on low-ram devices
                 Intent globalSearchIntent = new Intent("android.search.action.GLOBAL_SEARCH");
                 PackageParser.Package globalSearchPickerPackage =

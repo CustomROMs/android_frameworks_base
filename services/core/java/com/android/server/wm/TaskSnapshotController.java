@@ -212,7 +212,7 @@ class TaskSnapshotController {
         if (mainWindow == null) {
             return null;
         }
-        final boolean isLowRamDevice = ActivityManager.isLowRamDeviceStatic();
+        final boolean isLowRamDevice = ActivityManager.isLowRamDeviceStatic1();
         final float scaleFraction = isLowRamDevice ? REDUCED_SCALE : 1f;
         final GraphicBuffer buffer = top.mDisplayContent.screenshotApplicationsToBuffer(top.token,
                 -1, -1, false, scaleFraction, false, true);
@@ -301,7 +301,7 @@ class TaskSnapshotController {
         }
         return new TaskSnapshot(hwBitmap.createGraphicBufferHandle(),
                 topChild.getConfiguration().orientation, mainWindow.mStableInsets,
-                ActivityManager.isLowRamDeviceStatic() /* reduced */, 1.0f /* scale */);
+                ActivityManager.isLowRamDeviceStatic1() /* reduced */, 1.0f /* scale */);
     }
 
     /**

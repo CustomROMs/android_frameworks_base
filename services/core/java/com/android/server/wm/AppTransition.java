@@ -297,7 +297,7 @@ public class AppTransition implements Dump {
         mClipRevealTranslationY = (int) (CLIP_REVEAL_TRANSLATION_Y_DP
                 * mContext.getResources().getDisplayMetrics().density);
         mGridLayoutRecentsEnabled = SystemProperties.getBoolean("ro.recents.grid", false);
-        mLowRamRecentsEnabled = ActivityManager.isLowRamDeviceStatic();
+        mLowRamRecentsEnabled = ActivityManager.isLowRamDeviceStatic1();
     }
 
     boolean isTransitionSet() {

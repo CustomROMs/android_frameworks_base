@@ -21,7 +21,7 @@ import static android.app.ActivityManager.StackId;
 import static android.app.ActivityManager.StackId.FREEFORM_WORKSPACE_STACK_ID;
 import static android.app.ActivityManager.StackId.INVALID_STACK_ID;
 import static android.app.ActivityManager.StackId.PINNED_STACK_ID;
-import static android.app.ActivityManager.isLowRamDeviceStatic;
+import static android.app.ActivityManager.isLowRamDeviceStatic1;
 import static android.os.Trace.TRACE_TAG_WINDOW_MANAGER;
 import static android.view.Display.DEFAULT_DISPLAY;
 import static android.view.ViewTreeObserver.InternalInsetsInfo.TOUCHABLE_INSETS_CONTENT;
@@ -2794,7 +2794,7 @@ class WindowState extends WindowContainer<WindowState> implements WindowManagerP
             return false;
         }
 
-        if (isLowRamDeviceStatic()) {
+        if (isLowRamDeviceStatic1()) {
             // Don't save surfaces on Svelte devices.
             return false;
         }

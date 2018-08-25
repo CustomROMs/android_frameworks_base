@@ -104,7 +104,7 @@ public class RecentsConfiguration {
         fakeShadows = res.getBoolean(R.bool.config_recents_fake_shadows);
         svelteLevel = res.getInteger(R.integer.recents_svelte_level);
         isGridEnabled = SystemProperties.getBoolean("ro.recents.grid", false);
-        isLowRamDevice = ActivityManager.isLowRamDeviceStatic();
+        isLowRamDevice = ActivityManager.isLowRamDeviceStatic1(); /*false;*/
         dragToSplitEnabled = !isLowRamDevice;
 
         float screenDensity = context.getResources().getDisplayMetrics().density;

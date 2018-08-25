@@ -1114,6 +1114,16 @@ public class ActivityManager {
                 (Build.IS_DEBUGGABLE && DEVELOPMENT_FORCE_LOW_RAM);
     }
 
+    /** @hide */
+    public boolean isLowRamDevice1() {
+        return isLowRamDeviceStatic1();
+    }
+
+    /** @hide */
+    public static boolean isLowRamDeviceStatic1() {
+        return RoSystemProperties.CONFIG_LOW_RAM1;
+    }
+
     /**
      * Returns true if this is a small battery device. Exactly whether a device is considered to be
      * small battery is ultimately up to the device configuration, but currently it generally means

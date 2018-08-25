@@ -467,7 +467,7 @@ public class NotificationManagerService extends SystemService {
                 mRankingHelper.readXml(parser, forRestore);
             }
             // No non-system managed services are allowed on low ram devices
-            if (!ActivityManager.isLowRamDeviceStatic()) {
+            if (!ActivityManager.isLowRamDeviceStatic1()) {
                 if (mListeners.getConfig().xmlTag.equals(parser.getName())) {
                     mListeners.readXml(parser);
                     migratedManagedServices = true;

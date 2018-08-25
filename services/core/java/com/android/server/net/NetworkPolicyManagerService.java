@@ -273,7 +273,7 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
      */
     @VisibleForTesting
     public static final int MAX_PROC_STATE_SEQ_HISTORY =
-            ActivityManager.isLowRamDeviceStatic() ? 50 : 200;
+            ActivityManager.isLowRamDeviceStatic1() ? 50 : 200;
 
     @VisibleForTesting
     public static final int TYPE_WARNING = SystemMessage.NOTE_NET_WARNING;
