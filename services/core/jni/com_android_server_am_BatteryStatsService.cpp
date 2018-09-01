@@ -52,6 +52,8 @@ using android::hardware::hidl_vec;
 using IPowerV1_1 = android::hardware::power::V1_1::IPower;
 using IPowerV1_0 = android::hardware::power::V1_0::IPower;
 
+extern "C" void autosuspend_set_wakeup_callback(void (*func)(bool success));
+
 namespace android
 {
 
