@@ -51,6 +51,8 @@ using android::hardware::power::V1_1::PowerStateSubsystem;
 using android::hardware::power::V1_1::PowerStateSubsystemSleepState;
 using android::hardware::hidl_vec;
 
+extern "C" void autosuspend_set_wakeup_callback(void (*func)(bool success));
+
 namespace android
 {
 
