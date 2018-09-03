@@ -128,8 +128,7 @@ inline CopyResult copyTextureInto(Caches& caches, RenderState& renderState,
         return CopyResult::DestinationInvalid;
     }
 
-    if (bitmap->colorType() == kRGBA_F16_SkColorType &&
-            !caches.extensions().hasRenderableFloatTextures()) {
+    if (bitmap->colorType() == kRGBA_F16_SkColorType && !caches.extensions().hasFloatTextures()) {
         ALOGW("Can't copy surface into bitmap, RGBA_F16 config is not supported");
         return CopyResult::DestinationInvalid;
     }

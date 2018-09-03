@@ -68,6 +68,10 @@ static minikin::FontStyle computeRelativeStyle(int baseWeight, SkTypeface::Style
 Typeface* gDefaultTypeface = NULL;
 
 Typeface* Typeface::resolveDefault(Typeface* src) {
+    if (gDefaultTypeface == nullptr) {
+        setRobotoTypefaceForTest();
+    }
+
     LOG_ALWAYS_FATAL_IF(gDefaultTypeface == nullptr);
     return src == nullptr ? gDefaultTypeface : src;
 }

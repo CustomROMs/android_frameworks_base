@@ -38,9 +38,6 @@ public:
     inline bool hasPixelBufferObjects() const { return mVersionMajor >= 3; }
     inline bool hasOcclusionQueries() const { return mVersionMajor >= 3; }
     inline bool hasFloatTextures() const { return mVersionMajor >= 3; }
-    inline bool hasRenderableFloatTextures() const {
-        return (mVersionMajor >= 3 && mVersionMinor >= 2) || mHasRenderableFloatTexture;
-    }
     inline bool hasSRGB() const { return mHasSRGB; }
     inline bool hasSRGBWriteControl() const { return hasSRGB() && mHasSRGBWriteControl; }
     inline bool hasLinearBlending() const { return hasSRGB() && mHasLinearBlending; }
@@ -59,7 +56,6 @@ private:
     bool mHasSRGB;
     bool mHasSRGBWriteControl;
     bool mHasLinearBlending;
-    bool mHasRenderableFloatTexture;
 
     int mVersionMajor;
     int mVersionMinor;

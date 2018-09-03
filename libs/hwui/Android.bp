@@ -4,7 +4,7 @@ cc_defaults {
         "hwui_static_deps",
 
         //"hwui_bugreport_font_cache_usage",
-        //"hwui_compile_for_perf",
+        "hwui_compile_for_perf",
     ],
 
     cflags: [
@@ -28,6 +28,8 @@ cc_defaults {
         // TODO: Linear blending should be enabled by default, but we are
         // TODO: making it an opt-in while it's a work in progress
         //"-DANDROID_ENABLE_LINEAR_BLENDING",
+
+        "-DREQUIRES_SYNCHRONOUS_SETSURFACE",
     ],
 
     include_dirs: [
@@ -87,7 +89,6 @@ cc_defaults {
     cflags: [
         "-fno-omit-frame-pointer",
         "-marm",
-        "-mapcs",
     ],
 }
 
@@ -252,7 +253,7 @@ cc_library {
         // Enables fine-grained GLES error checking
         // If enabled, every GLES call is wrapped & error checked
         // Has moderate overhead
-        "hwui_enable_opengl_validation",
+        //"hwui_enable_opengl_validation",
 ],
 }
 
