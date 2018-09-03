@@ -1002,41 +1002,45 @@ static void android_os_BinderInternal_handleGc(JNIEnv* env, jobject clazz)
     gCollectedAtRefs = gNumLocalRefsCreated + gNumDeathRefsCreated;
 }
 
-static void android_os_BinderInternal_proxyLimitcallback(int uid)
+/*static void android_os_BinderInternal_proxyLimitcallback(int uid)
 {
     JNIEnv *env = AndroidRuntime::getJNIEnv();
     env->CallStaticVoidMethod(gBinderInternalOffsets.mClass,
                               gBinderInternalOffsets.mProxyLimitCallback,
                               uid);
 }
+*/
 
 static void android_os_BinderInternal_setBinderProxyCountEnabled(JNIEnv* env, jobject clazz,
                                                                  jboolean enable)
 {
-    BpBinder::setCountByUidEnabled((bool) enable);
+    //BpBinder::setCountByUidEnabled((bool) enable);
+    (void)env; (void)clazz; (void)enable;
 }
 
 static jobject android_os_BinderInternal_getBinderProxyPerUidCounts(JNIEnv* env, jclass clazz)
 {
-    Vector<uint32_t> uids, counts;
-    BpBinder::getCountByUid(uids, counts);
+/*    Vector<uint32_t> uids, counts;
+    BpBinder::getCountByUid(uids, counts);*/
     jobject sparseIntArray = env->NewObject(gSparseIntArrayOffsets.classObject,
                                             gSparseIntArrayOffsets.constructor);
-    for (size_t i = 0; i < uids.size(); i++) {
+    /*for (size_t i = 0; i < uids.size(); i++) {
         env->CallVoidMethod(sparseIntArray, gSparseIntArrayOffsets.put,
                             static_cast<jint>(uids[i]), static_cast<jint>(counts[i]));
-    }
+    }*/
     return sparseIntArray;
 }
 
 static jint android_os_BinderInternal_getBinderProxyCount(JNIEnv* env, jobject clazz, jint uid) {
-    return static_cast<jint>(BpBinder::getBinderProxyCount(static_cast<uint32_t>(uid)));
+    (void)env; (void)clazz; (void)uid; 
+    return static_cast<jint>(0); /*static_cast<jint>(BpBinder::getBinderProxyCount(static_cast<uint32_t>(uid)));*/
 }
 
 static void android_os_BinderInternal_setBinderProxyCountWatermarks(JNIEnv* env, jobject clazz,
                                                                     jint high, jint low)
 {
-    BpBinder::setBinderProxyCountWatermarks(high, low);
+    (void)env; (void)clazz; (void)high; (void)low;
+    //BpBinder::setBinderProxyCountWatermarks(high, low);
 }
 
 // ----------------------------------------------------------------------------
@@ -1071,7 +1075,7 @@ static int int_register_android_os_BinderInternal(JNIEnv* env)
     gSparseIntArrayOffsets.put = GetMethodIDOrDie(env, gSparseIntArrayOffsets.classObject, "put",
                                                    "(II)V");
 
-    BpBinder::setLimitCallback(android_os_BinderInternal_proxyLimitcallback);
+    //BpBinder::setLimitCallback(android_os_BinderInternal_proxyLimitcallback);
 
     return RegisterMethodsOrDie(
         env, kBinderInternalPathName,
