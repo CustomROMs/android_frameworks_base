@@ -295,7 +295,7 @@ bool CanvasContext::isSwapChainStuffed() {
 
         // If there's a multi-frameInterval gap we effectively already dropped a frame,
         // so consider the queue healthy.
-        if (swapA.swapCompletedTime - swapB.swapCompletedTime > frameInterval * 3) {
+        if (std::abs(swapA.swapCompletedTime - swapB.swapCompletedTime) > frameInterval * 3) {
             return false;
         }
 
@@ -405,10 +405,6 @@ void CanvasContext::notifyFramePending() {
 }
 
 void CanvasContext::draw() {
-    if (!mRenderPipeline->isSurfaceReady()) {
-        return;
-    }
-
     SkRect dirty;
     mDamageAccumulator.finish(&dirty);
 
