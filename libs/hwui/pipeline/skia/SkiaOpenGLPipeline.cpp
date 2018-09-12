@@ -328,9 +328,9 @@ sk_sp<Bitmap> SkiaOpenGLPipeline::allocateHardwareBitmap(renderthread::RenderThr
     }
 
     sp<GraphicBuffer> buffer = new GraphicBuffer(info.width(), info.height(), pixelFormat,
-            GraphicBuffer::USAGE_HW_TEXTURE |
+            static_cast<uint64_t>(GraphicBuffer::USAGE_HW_TEXTURE |
             GraphicBuffer::USAGE_SW_WRITE_NEVER |
-            GraphicBuffer::USAGE_SW_READ_NEVER,
+            GraphicBuffer::USAGE_SW_READ_NEVER),
             std::string("Bitmap::allocateSkiaHardwareBitmap pid [") + std::to_string(getpid()) + "]");
 
     status_t error = buffer->initCheck();

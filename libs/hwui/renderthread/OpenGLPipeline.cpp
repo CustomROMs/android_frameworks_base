@@ -408,9 +408,9 @@ sk_sp<Bitmap> OpenGLPipeline::allocateHardwareBitmap(RenderThread& renderThread,
 
     PixelFormat pixelFormat = internalFormatToPixelFormat(internalFormat);
     sp<GraphicBuffer> buffer = new GraphicBuffer(info.width(), info.height(), pixelFormat,
-            GraphicBuffer::USAGE_HW_TEXTURE |
+            static_cast<uint64_t>(GraphicBuffer::USAGE_HW_TEXTURE |
             GraphicBuffer::USAGE_SW_WRITE_NEVER |
-            GraphicBuffer::USAGE_SW_READ_NEVER,
+            GraphicBuffer::USAGE_SW_READ_NEVER),
             std::string("Bitmap::allocateHardwareBitmap pid [") + std::to_string(getpid()) + "]");
 
     status_t error = buffer->initCheck();

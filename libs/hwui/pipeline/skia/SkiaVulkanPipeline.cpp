@@ -167,9 +167,9 @@ sk_sp<Bitmap> SkiaVulkanPipeline::allocateHardwareBitmap(renderthread::RenderThr
     //code below is a hack to avoid crashing because of missing HW Bitmap support
     sp<GraphicBuffer> buffer = new GraphicBuffer(skBitmap.info().width(), skBitmap.info().height(),
             PIXEL_FORMAT_RGBA_8888,
-            GraphicBuffer::USAGE_HW_TEXTURE |
+            static_cast<uint64_t>(GraphicBuffer::USAGE_HW_TEXTURE |
             GraphicBuffer::USAGE_SW_WRITE_NEVER |
-            GraphicBuffer::USAGE_SW_READ_NEVER,
+            GraphicBuffer::USAGE_SW_READ_NEVER),
             std::string("SkiaVulkanPipeline::allocateHardwareBitmap pid [")
             + std::to_string(getpid()) + "]");
     status_t error = buffer->initCheck();
