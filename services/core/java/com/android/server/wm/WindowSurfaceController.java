@@ -235,7 +235,7 @@ class WindowSurfaceController {
             Slog.w(TAG, "Error disconnecting surface in: " + this, e);
         }
     }
-
+/*
     void setLayer(int layer) {
         if (mSurfaceControl != null) {
             mService.openSurfaceTransaction();
@@ -254,7 +254,7 @@ class WindowSurfaceController {
             }
         }
     }
-
+*/
     void setLayerStackInTransaction(int layerStack) {
         if (mSurfaceControl != null) {
             mSurfaceControl.setLayerStack(layerStack);

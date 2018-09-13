@@ -557,7 +557,10 @@ class WindowStateAnimator {
         }
         if (SHOW_TRANSACTIONS) WindowManagerService.logSurface(mWin, "SET FREEZE LAYER", false);
         if (mSurfaceController != null) {
-            mSurfaceController.setLayer(mAnimLayer + 1);
+            // Our SurfaceControl is always at layer 0 within the parent Surface managed by
+            // window-state. We want this old Surface to stay on top of the new one
+            // until we do the swap, so we place it at layer 1.
+            //mSurfaceController.mSurfaceControl.setLayer(1);
         }
         mDestroyPreservedSurfaceUponRedraw = true;
         mSurfaceDestroyDeferred = true;
@@ -725,17 +728,6 @@ class WindowStateAnimator {
             WindowManagerService.logSurface(w, "CREATE pos=("
                     + w.mFrame.left + "," + w.mFrame.top + ") ("
                     + width + "x" + height + "), layer=" + mAnimLayer + " HIDE", false);
-        }
-
-        // Start a new transaction and apply position & offset.
-
-        mService.openSurfaceTransaction();
-        try {
-            mSurfaceController.setPositionInTransaction(mTmpSize.left, mTmpSize.top, false);
-            mSurfaceController.setLayerStackInTransaction(getLayerStack());
-            mSurfaceController.setLayer(mAnimLayer);
-        } finally {
-            mService.closeSurfaceTransaction();
         }
 
         mLastHidden = true;
@@ -1621,7 +1613,6 @@ class WindowStateAnimator {
                         mDtDy * w.mHScale * mExtraHScale,
                         mDsDy * w.mVScale * mExtraVScale,
                         recoveringMemory);
-            mSurfaceController.setLayer(mAnimLayer);
 
             if (prepared && mDrawState == HAS_DRAWN) {
                 if (mLastHidden) {

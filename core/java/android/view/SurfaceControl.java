@@ -16,6 +16,8 @@
 
 package android.view;
 
+import static android.view.WindowManager.LayoutParams.INVALID_WINDOW_TYPE;
+
 import static android.graphics.Matrix.MSCALE_X;
 import static android.graphics.Matrix.MSCALE_Y;
 import static android.graphics.Matrix.MSKEW_X;
@@ -35,6 +37,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Region;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -540,6 +543,18 @@ public class SurfaceControl implements Parcelable {
         }
     }
 
+    public SurfaceControl(SurfaceSession session,
+            String name, int w, int h, int format, int flags, int windowType, int ownerUid)
+                    throws OutOfResourcesException {
+        this(session, name, w, h, format, flags, null, windowType, ownerUid);
+    }
+
+    public SurfaceControl(SurfaceSession session,
+            String name, int w, int h, int format, int flags)
+                    throws OutOfResourcesException {
+        this(session, name, w, h, format, flags, null, INVALID_WINDOW_TYPE, Binder.getCallingUid());
+    }
+
     /**
      * Create a surface with a name.
      * <p>
@@ -565,7 +580,7 @@ public class SurfaceControl implements Parcelable {
      *
      * @throws throws OutOfResourcesException If the SurfaceControl cannot be created.
      */
-    private SurfaceControl(SurfaceSession session, String name, int w, int h, int format, int flags,
+    public SurfaceControl(SurfaceSession session, String name, int w, int h, int format, int flags,
             SurfaceControl parent, int windowType, int ownerUid)
                     throws OutOfResourcesException, IllegalArgumentException {
         if (session == null) {
