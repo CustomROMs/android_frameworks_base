@@ -21,6 +21,7 @@ import android.accessibilityservice.IAccessibilityServiceClient;
 import android.content.Context;
 import android.content.pm.IPackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.hardware.input.InputManager;
 import android.os.Binder;
 import android.os.IBinder;
@@ -161,7 +162,10 @@ public final class UiAutomationConnection extends IUiAutomationConnection.Stub {
         }
         final long identity = Binder.clearCallingIdentity();
         try {
-            return SurfaceControl.screenshot(width, height);
+            //int left, int top, int right, int bottom
+            Rect crop = new Rect(0, 0, width, height);
+            int rotation = 0;
+            return SurfaceControl.screenshot(crop, width, height, rotation);
         } finally {
             Binder.restoreCallingIdentity(identity);
         }
