@@ -46,6 +46,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.os.Trace;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -465,7 +466,7 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
             }
         }
 
-        mColorFadeEnabled = false; //!ActivityManager.isLowRamDeviceStatic();
+        mColorFadeEnabled = SystemProperties.getBoolean("sys.colorfade", false); //!ActivityManager.isLowRamDeviceStatic();
         mColorFadeFadesConfig = resources.getBoolean(
                 com.android.internal.R.bool.config_animateScreenLights);
 
