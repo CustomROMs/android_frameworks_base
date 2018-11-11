@@ -249,7 +249,7 @@ static void DropCapabilitiesBoundingSet(JNIEnv* env) {
               "your kernel is compiled with file capabilities support");
       } else {
         ALOGE("prctl(PR_CAPBSET_DROP, %d) failed: %s", i, strerror(errno));
-        RuntimeAbort(env, __LINE__, "prctl(PR_CAPBSET_DROP) failed");
+        //RuntimeAbort(env, __LINE__, "prctl(PR_CAPBSET_DROP) failed");
       }
     }
   }

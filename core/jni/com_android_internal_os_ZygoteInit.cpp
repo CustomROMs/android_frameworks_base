@@ -23,7 +23,7 @@
 namespace {
 
 void android_internal_os_ZygoteInit_nativePreloadAppProcessHALs(JNIEnv* env, jclass) {
-    android::GraphicBufferMapper::preloadHal();
+    //android::GraphicBufferMapper::preloadHal();
     // Add preloading here for other HALs that are (a) always passthrough, and
     // (b) loaded by most app processes.
 }
