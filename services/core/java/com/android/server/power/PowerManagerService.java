@@ -3008,7 +3008,12 @@ public final class PowerManagerService extends SystemService
     }
 
     void finishUidChangesInternal() {
-        synchronized (mLock) {
+       if (mLock == null) {
+            mUidsChanging = false;
+            return;
+       }
+
+       synchronized (mLock) {
             mUidsChanging = false;
             if (mUidsChanged) {
                 updateWakeLockDisabledStatesLocked();
