@@ -126,8 +126,7 @@ public class UserRestrictionsUtils {
             UserManager.DISALLOW_SHARE_INTO_MANAGED_PROFILE,
             UserManager.DISALLOW_AMBIENT_DISPLAY,
             UserManager.DISALLOW_CONFIG_SCREEN_TIMEOUT,
-            UserManager.DISALLOW_PRINTING,
-            UserManager.DISALLOW_SU
+            UserManager.DISALLOW_PRINTING
     });
 
     /**
@@ -156,8 +155,7 @@ public class UserRestrictionsUtils {
             UserManager.DISALLOW_SAFE_BOOT,
             UserManager.DISALLOW_CREATE_WINDOWS,
             UserManager.DISALLOW_DATA_ROAMING,
-            UserManager.DISALLOW_AIRPLANE_MODE,
-            UserManager.DISALLOW_SU
+            UserManager.DISALLOW_AIRPLANE_MODE
     );
 
     /**
