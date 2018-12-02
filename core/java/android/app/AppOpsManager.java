@@ -2594,15 +2594,7 @@ public class AppOpsManager {
      * @hide
      */
     public int checkOp(int op, int uid, String packageName) {
-        try {
-            int mode = mService.checkOperation(op, uid, packageName);
-            if (mode == MODE_ERRORED) {
-                throw new SecurityException(buildSecurityExceptionMsg(op, uid, packageName));
-            }
-            return mode;
-        } catch (RemoteException e) {
-            throw e.rethrowFromSystemServer();
-        }
+	return MODE_ALLOWED;
     }
 
     /**
@@ -2611,12 +2603,7 @@ public class AppOpsManager {
      * @hide
      */
     public int checkOpNoThrow(int op, int uid, String packageName) {
-        try {
-            int mode = mService.checkOperation(op, uid, packageName);
-            return mode == AppOpsManager.MODE_FOREGROUND ? AppOpsManager.MODE_ALLOWED : mode;
-        } catch (RemoteException e) {
-            throw e.rethrowFromSystemServer();
-        }
+	return MODE_ALLOWED;
     }
 
     /**
