@@ -77,12 +77,13 @@ import java.io.File;
 public final class StorageVolume implements Parcelable {
 
     private final String mId;
+    private final int mStorageId;
     private final File mPath;
-    private final File mInternalPath;
     private final String mDescription;
     private final boolean mPrimary;
     private final boolean mRemovable;
     private final boolean mEmulated;
+    private final long mMtpReserveSize;
     private final boolean mAllowMassStorage;
     private final long mMaxFileSize;
     private final UserHandle mOwner;
@@ -119,16 +120,17 @@ public final class StorageVolume implements Parcelable {
     public static final int STORAGE_ID_PRIMARY = 0x00010001;
 
     /** {@hide} */
-    public StorageVolume(String id, File path, File internalPath, String description,
-            boolean primary, boolean removable, boolean emulated, boolean allowMassStorage,
+    public StorageVolume(String id, int storageId, File path, String description, boolean primary,
+            boolean removable, boolean emulated, long mtpReserveSize, boolean allowMassStorage,
             long maxFileSize, UserHandle owner, String fsUuid, String state) {
         mId = Preconditions.checkNotNull(id);
+        mStorageId = storageId;
         mPath = Preconditions.checkNotNull(path);
-        mInternalPath = Preconditions.checkNotNull(internalPath);
         mDescription = Preconditions.checkNotNull(description);
         mPrimary = primary;
         mRemovable = removable;
         mEmulated = emulated;
+        mMtpReserveSize = mtpReserveSize;
         mAllowMassStorage = allowMassStorage;
         mMaxFileSize = maxFileSize;
         mOwner = Preconditions.checkNotNull(owner);
@@ -138,12 +140,13 @@ public final class StorageVolume implements Parcelable {
 
     private StorageVolume(Parcel in) {
         mId = in.readString();
+        mStorageId = in.readInt();
         mPath = new File(in.readString());
-        mInternalPath = new File(in.readString());
         mDescription = in.readString();
         mPrimary = in.readInt() != 0;
         mRemovable = in.readInt() != 0;
         mEmulated = in.readInt() != 0;
+        mMtpReserveSize = in.readLong();
         mAllowMassStorage = in.readInt() != 0;
         mMaxFileSize = in.readLong();
         mOwner = in.readParcelable(null);
@@ -164,16 +167,6 @@ public final class StorageVolume implements Parcelable {
      */
     public String getPath() {
         return mPath.toString();
-    }
-
-    /**
-     * Returns the path of the underlying filesystem.
-     *
-     * @return the internal path
-     * @hide
-     */
-    public String getInternalPath() {
-        return mInternalPath.toString();
     }
 
     /** {@hide} */
@@ -214,6 +207,17 @@ public final class StorageVolume implements Parcelable {
      */
     public boolean isEmulated() {
         return mEmulated;
+    }
+
+    /**
+     * Returns the MTP storage ID for the volume.
+     * this is also used for the storage_id column in the media provider.
+     *
+     * @return MTP storage ID
+     * @hide
+     */
+    public int getStorageId() {
+        return mStorageId;
     }
 
     /**
@@ -368,12 +372,13 @@ public final class StorageVolume implements Parcelable {
         pw.println("StorageVolume:");
         pw.increaseIndent();
         pw.printPair("mId", mId);
+        pw.printPair("mStorageId", mStorageId);
         pw.printPair("mPath", mPath);
-        pw.printPair("mInternalPath", mInternalPath);
         pw.printPair("mDescription", mDescription);
         pw.printPair("mPrimary", mPrimary);
         pw.printPair("mRemovable", mRemovable);
         pw.printPair("mEmulated", mEmulated);
+        pw.printPair("mMtpReserveSize", mMtpReserveSize);
         pw.printPair("mAllowMassStorage", mAllowMassStorage);
         pw.printPair("mMaxFileSize", mMaxFileSize);
         pw.printPair("mOwner", mOwner);
@@ -402,18 +407,20 @@ public final class StorageVolume implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(mId);
+        parcel.writeInt(mStorageId);
         parcel.writeString(mPath.toString());
-        parcel.writeString(mInternalPath.toString());
         parcel.writeString(mDescription);
         parcel.writeInt(mPrimary ? 1 : 0);
         parcel.writeInt(mRemovable ? 1 : 0);
         parcel.writeInt(mEmulated ? 1 : 0);
+        parcel.writeLong(mMtpReserveSize);
         parcel.writeInt(mAllowMassStorage ? 1 : 0);
         parcel.writeLong(mMaxFileSize);
         parcel.writeParcelable(mOwner, flags);
         parcel.writeString(mFsUuid);
         parcel.writeString(mState);
     }
+
 
     /** {@hide} */
     public static final class ScopedAccessProviderContract {

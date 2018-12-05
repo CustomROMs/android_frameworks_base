@@ -269,9 +269,14 @@ public class VolumeInfo implements Parcelable {
         return (mountFlags & MOUNT_FLAG_VISIBLE) != 0;
     }
 
-    public boolean isVisibleForUser(int userId) {
-        if (type == TYPE_PUBLIC && mountUserId == userId) {
-            return isVisible();
+    public boolean isVisibleForRead(int userId) {
+        if (type == TYPE_PUBLIC) {
+            if (isPrimary() && mountUserId != userId) {
+                // Primary physical is only visible to single user
+                return false;
+            } else {
+                return isVisible();
+            }
         } else if (type == TYPE_EMULATED) {
             return isVisible();
         } else {
@@ -279,12 +284,14 @@ public class VolumeInfo implements Parcelable {
         }
     }
 
-    public boolean isVisibleForRead(int userId) {
-        return isVisibleForUser(userId);
-    }
-
     public boolean isVisibleForWrite(int userId) {
-        return isVisibleForUser(userId);
+        if (type == TYPE_PUBLIC && mountUserId == userId) {
+            return isVisible();
+        } else if (type == TYPE_EMULATED) {
+            return isVisible();
+        } else {
+            return false;
+        }
     }
 
     public File getPath() {
@@ -312,9 +319,7 @@ public class VolumeInfo implements Parcelable {
      * {@link android.Manifest.permission#WRITE_MEDIA_STORAGE}.
      */
     public File getInternalPathForUser(int userId) {
-        if (path == null) {
-            return null;
-        } else if (type == TYPE_PUBLIC) {
+        if (type == TYPE_PUBLIC) {
             // TODO: plumb through cleaner path from vold
             return new File(path.replace("/storage/", "/mnt/media_rw/"));
         } else {
@@ -335,14 +340,12 @@ public class VolumeInfo implements Parcelable {
         if (userPath == null) {
             userPath = new File("/dev/null");
         }
-        File internalPath = getInternalPathForUser(userId);
-        if (internalPath == null) {
-            internalPath = new File("/dev/null");
-        }
 
         String description = null;
         String derivedFsUuid = fsUuid;
+        long mtpReserveSize = 0;
         long maxFileSize = 0;
+        int mtpStorageId = StorageVolume.STORAGE_ID_INVALID;
 
         if (type == TYPE_EMULATED) {
             emulated = true;
@@ -352,6 +355,12 @@ public class VolumeInfo implements Parcelable {
                 description = storage.getBestVolumeDescription(privateVol);
                 derivedFsUuid = privateVol.fsUuid;
             }
+
+            if (isPrimary()) {
+                mtpStorageId = StorageVolume.STORAGE_ID_PRIMARY;
+            }
+
+            mtpReserveSize = storage.getStorageLowBytes(userPath);
 
             if (ID_EMULATED_INTERNAL.equals(id)) {
                 removable = false;
@@ -365,8 +374,22 @@ public class VolumeInfo implements Parcelable {
 
             description = storage.getBestVolumeDescription(this);
 
+            if (isPrimary()) {
+                mtpStorageId = StorageVolume.STORAGE_ID_PRIMARY;
+            } else {
+                // Since MediaProvider currently persists this value, we need a
+                // value that is stable over time.
+                mtpStorageId = buildStableMtpStorageId(fsUuid);
+            }
+
             if ("vfat".equals(fsType)) {
                 maxFileSize = 4294967295L;
+            }
+
+            if ("exfat".equals(fsType)) {
+                // Now, the max file size is 256TB.
+                // TODO: the max file size maybe support to 16EB.
+                maxFileSize = 256L * 1024 * 1024 * 1024 * 1024;
             }
 
         } else {
@@ -377,8 +400,8 @@ public class VolumeInfo implements Parcelable {
             description = context.getString(android.R.string.unknownName);
         }
 
-        return new StorageVolume(id, userPath, internalPath, description, isPrimary(), removable,
-                emulated, allowMassStorage, maxFileSize, new UserHandle(userId),
+        return new StorageVolume(id, mtpStorageId, userPath, description, isPrimary(), removable,
+                emulated, mtpReserveSize, allowMassStorage, maxFileSize, new UserHandle(userId),
                 derivedFsUuid, envState);
     }
 
