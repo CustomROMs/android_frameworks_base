@@ -2789,14 +2789,15 @@ class StorageManagerService extends IStorageManager.Stub
             final boolean primary = true;
             final boolean removable = primaryPhysical;
             final boolean emulated = !primaryPhysical;
+            final long mtpReserveSize = 0L;
             final boolean allowMassStorage = false;
             final long maxFileSize = 0L;
             final UserHandle owner = new UserHandle(userId);
             final String uuid = null;
             final String state = Environment.MEDIA_REMOVED;
 
-            res.add(0, new StorageVolume(id, path, path,
-                    description, primary, removable, emulated,
+            res.add(0, new StorageVolume(id, StorageVolume.STORAGE_ID_INVALID, path,
+                    description, primary, removable, emulated, mtpReserveSize,
                     allowMassStorage, maxFileSize, owner, uuid, state));
         }
 
