@@ -4609,17 +4609,7 @@ public class TelephonyManager {
      */
     @RequiresPermission(android.Manifest.permission.READ_PHONE_STATE)
     public String[] getForbiddenPlmns(int subId, int appType) {
-        try {
-            ITelephony telephony = getITelephony();
-            if (telephony == null)
-                return null;
-            return telephony.getForbiddenPlmns(subId, appType, mContext.getOpPackageName());
-        } catch (RemoteException ex) {
-            return null;
-        } catch (NullPointerException ex) {
-            // This could happen before phone starts
-            return null;
-        }
+        return null;
     }
 
     /**
