@@ -446,12 +446,14 @@ static jlong nativeInitSensorEventQueue(JNIEnv *env, jclass clazz, jlong sensorM
 static jint nativeEnableSensor(JNIEnv *env, jclass clazz, jlong eventQ, jint handle, jint rate_us,
                                jint maxBatchReportLatency) {
     sp<Receiver> receiver(reinterpret_cast<Receiver *>(eventQ));
+    ALOGE("%s: handle = %d, eventQ = %lld, rate_us = %d, maxBatchReportLatency = %d", __func__, handle, eventQ, rate_us, maxBatchReportLatency);
     return receiver->getSensorEventQueue()->enableSensor(handle, rate_us, maxBatchReportLatency,
                                                          0);
 }
 
 static jint nativeDisableSensor(JNIEnv *env, jclass clazz, jlong eventQ, jint handle) {
     sp<Receiver> receiver(reinterpret_cast<Receiver *>(eventQ));
+    ALOGE("%s: handle = %d", __func__, handle);
     return receiver->getSensorEventQueue()->disableSensor(handle);
 }
 
