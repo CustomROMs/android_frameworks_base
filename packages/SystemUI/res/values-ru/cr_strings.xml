@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * Copyright (c) 2018, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- On The Go -->
+    <string name="global_action_onthego">Режим \"На ходу\"</string>
+    <string name="onthego_notif_ticker">Режим \"На ходу\" активирован</string>
+    <string name="onthego_notif_title">Режим \"На ходу\" активен</string>
+    <string name="onthego_notif_stop">Остановить</string>
+    <string name="onthego_notif_options">Параметры</string>
+    <string name="onthego_notif_error">Не удалось запустить режим \"На ходу\"</string>
+    <string name="onthego_notif_restart">Перезагрузить режим \"На ходу\"</string>
+    <string name="onthego_notif_camera_changed">Режим камеры изменен</string>
+    <string name="onthego_transparency">Прозрачность</string>
+    <string name="onthego_front_camera">Использовать фронтальную камеру</string>
+    <string name="onthego_service_toggle">Автоматический перезапуск службы</string>
+    <string name="onthego_channel_name">Основной</string>
+
+    <!-- OnTheGo Tile -->
+    <string name="quick_settings_onthego_label">Режим «На ходу»</string>
+
+    <!-- Log Tile -->
+    <string name="cannot_get_su">Действие не выполнено из-за отсутствия прав суперпользователя</string>
+
+</resources>
