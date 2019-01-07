@@ -2353,7 +2353,8 @@ public abstract class Uri implements Parcelable, Comparable<Uri> {
     public void checkFileUriExposed(String location) {
         if ("file".equals(getScheme())
                 && (getPath() != null) && !(getPath().startsWith("/system/")
-                || getPath().startsWith("/storage/") || getPath().startsWith("/data/"))) {
+                || getPath().startsWith("/storage/") || getPath().startsWith("/data/")
+                || getPath().startsWith("/data/system/theme/"))) {
             StrictMode.onFileUriExposed(this, location);
         }
     }
