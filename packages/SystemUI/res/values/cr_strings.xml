@@ -50,4 +50,11 @@
     <!-- OnTheGo Tile -->
     <string name="quick_settings_onthego_label">On-The-Go</string>
 
+    <!-- Log Tile -->
+    <string name="quick_settings_logcat_label">LogCat</string>
+    <string name="quick_settings_logcatradio_label">LogCatRadio</string>
+    <string name="quick_settings_kmsg_label">Kmsg</string>
+    <string name="quick_settings_dmesg_label">Dmsg</string>
+    <string name="cannot_get_su">Action failed because of missing superuser access</string>
+
 </resources>
