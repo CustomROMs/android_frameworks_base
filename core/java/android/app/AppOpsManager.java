@@ -1853,7 +1853,7 @@ public class AppOpsManager {
      */
     public void stopWatchingMode(OnOpChangedListener callback) {
         synchronized (mModeWatchers) {
-            IAppOpsCallback cb = mModeWatchers.get(callback);
+            IAppOpsCallback cb = mModeWatchers.remove(callback);
             if (cb != null) {
                 try {
                     mService.stopWatchingMode(cb);
