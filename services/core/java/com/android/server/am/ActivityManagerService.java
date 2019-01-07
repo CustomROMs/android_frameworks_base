@@ -6982,6 +6982,8 @@ public class ActivityManagerService extends IActivityManager.Stub
                 skipPendingBroadcastLocked(pid);
             }
             if (app.persistent && !app.isolated) {
+                // Remove this record before add
+                mPersistentStartingProcesses.remove(app);
                 addAppLocked(app.info, null, false, null /* ABI override */);
             }
         } else {
