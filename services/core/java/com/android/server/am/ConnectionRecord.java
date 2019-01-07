@@ -21,6 +21,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 
 import java.io.PrintWriter;
+import java.util.Objects;
 
 /**
  * Description of a single binding to a service.
@@ -118,5 +119,26 @@ final class ConnectionRecord {
         sb.append(Integer.toHexString(System.identityHashCode(conn.asBinder())));
         sb.append('}');
         return stringName = sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConnectionRecord that = (ConnectionRecord) o;
+        return flags == that.flags
+                && clientLabel == that.clientLabel
+                && serviceDead == that.serviceDead
+                && Objects.equals(binding, that.binding)
+                && Objects.equals(activity, that.activity)
+                && Objects.equals(conn, that.conn)
+                && Objects.equals(clientIntent, that.clientIntent)
+                && Objects.equals(stringName, that.stringName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(binding, activity, conn, flags, clientLabel, clientIntent
+                , stringName, serviceDead);
     }
 }
