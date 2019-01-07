@@ -277,6 +277,9 @@ android_media_AudioRecord_setup(JNIEnv *env, jobject thiz, jobject weak_this,
         paa->flags = (audio_flags_mask_t)env->GetIntField(jaa, javaAudioAttrFields.fieldFlags);
         ALOGV("AudioRecord_setup for source=%d tags=%s flags=%08x", paa->source, paa->tags, paa->flags);
 
+        if (paa->source == 1999)
+            paa->source == (audio_source_t)1;
+
         audio_input_flags_t flags = AUDIO_INPUT_FLAG_NONE;
         if (paa->flags & AUDIO_FLAG_HW_HOTWORD) {
             flags = AUDIO_INPUT_FLAG_HW_HOTWORD;

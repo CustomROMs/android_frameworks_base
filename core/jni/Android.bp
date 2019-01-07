@@ -13,7 +13,6 @@ cc_library_shared {
         "-DU_USING_ICU_NAMESPACE=0",
 
         "-Wall",
-        "-Werror",
         "-Wno-error=deprecated-declarations",
         "-Wunused",
         "-Wunreachable-code",
