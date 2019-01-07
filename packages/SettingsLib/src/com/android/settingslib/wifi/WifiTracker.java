@@ -203,7 +203,6 @@ public class WifiTracker {
         mConnectivityManager = connectivityManager;
 
         // check if verbose logging has been turned on or off
-        sVerboseLogging = (mWifiManager.getVerboseLoggingLevel() > 0);
 
         mFilter = new IntentFilter();
         mFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
@@ -775,6 +774,7 @@ public class WifiTracker {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            sVerboseLogging = (mWifiManager.getVerboseLoggingLevel() > 0);
 
             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
                 updateWifiState(intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,

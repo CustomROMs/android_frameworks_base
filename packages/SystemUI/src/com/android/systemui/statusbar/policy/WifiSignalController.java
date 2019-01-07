@@ -51,9 +51,12 @@ public class WifiSignalController extends
         mHasMobileData = hasMobileData;
         Handler handler = new WifiHandler(Looper.getMainLooper());
         mWifiChannel = new AsyncChannel();
-        Messenger wifiMessenger = mWifiManager.getWifiServiceMessenger();
-        if (wifiMessenger != null) {
-            mWifiChannel.connect(context, handler, wifiMessenger);
+        if (mWifiManager != null) {
+            Messenger wifiMessenger = mWifiManager.getWifiServiceMessenger();
+
+            if (wifiMessenger != null) {
+                mWifiChannel.connect(context, handler, wifiMessenger);
+            }
         }
         // WiFi only has one state.
         mCurrentState.iconGroup = mLastState.iconGroup = new IconGroup(
