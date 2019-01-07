@@ -1877,6 +1877,13 @@ public final class ActiveServices {
         return true;
     }
 
+    private static void logScheduleServiceRestart(ServiceRecord r) {
+        Slog.w(TAG, "Scheduling restart of crashed service "
+                + r.shortName + " in " + r.restartDelay + "ms");
+        EventLog.writeEvent(EventLogTags.AM_SCHEDULE_SERVICE_RESTART,
+                r.userId, r.shortName, r.restartDelay);
+    }
+
     private final boolean scheduleServiceRestartLocked(ServiceRecord r, boolean allowCancel) {
         boolean canceled = false;
 
@@ -2013,8 +2020,6 @@ public final class ActiveServices {
         mAm.mHandler.removeCallbacks(r.restarter);
         mAm.mHandler.postAtTime(r.restarter, r.nextRestartTime);
         r.nextRestartTime = SystemClock.uptimeMillis() + r.restartDelay;
-        Slog.w(TAG, "Scheduling restart of crashed service "
-                + r.shortName + " in " + r.restartDelay + "ms");
 
         if (SERVICE_RESCHEDULE && DEBUG_DELAYED_SERVICE) {
             for (int i=mRestartingServices.size()-1; i>=0; i--) {
@@ -2024,8 +2029,9 @@ public final class ActiveServices {
             }
         }
 
-        EventLog.writeEvent(EventLogTags.AM_SCHEDULE_SERVICE_RESTART,
-                r.userId, r.shortName, r.restartDelay);
+        if (!allowCancel) {
+            logScheduleServiceRestart(r);
+        }
 
         return canceled;
     }
@@ -3240,6 +3246,9 @@ public final class ActiveServices {
                             bringDownServiceLocked(sr);
                         }
                     }
+                }
+                if (mRestartingServices.contains(sr)) {
+                    logScheduleServiceRestart(sr);
                 }
             }
         }
