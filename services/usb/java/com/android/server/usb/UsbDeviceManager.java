@@ -324,7 +324,8 @@ public class UsbDeviceManager {
         // The legacy mass storage UI will be used instead.
         boolean massStorageSupported;
         final StorageManager storageManager = StorageManager.from(mContext);
-        final StorageVolume primary = storageManager.getPrimaryVolume();
+        final StorageVolume primary =
+                storageManager != null ? storageManager.getPrimaryVolume() : null;
         massStorageSupported = primary != null && primary.allowMassStorage();
         mUseUsbNotification = !massStorageSupported && mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_usbChargingMessage);
