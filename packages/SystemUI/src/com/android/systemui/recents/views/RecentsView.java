@@ -32,6 +32,8 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.ArraySet;
 import android.util.AttributeSet;
 import android.util.MathUtils;
@@ -922,8 +924,8 @@ public class RecentsView extends FrameLayout {
      * @return Alpha from 0 to 1.
      */
     private float getOpaqueScrimAlpha() {
-        return MathUtils.map(0, 1, ScrimController.GRADIENT_SCRIM_ALPHA,
-                ScrimController.GRADIENT_SCRIM_ALPHA_BUSY, mBusynessFactor);
+        return MathUtils.map(0, 1, showWallpaperTint() ? ScrimController.GRADIENT_SCRIM_ALPHA : ScrimController.CUSTOM_GRADIENT_SCRIM_ALPHA,
+                showWallpaperTint() ? ScrimController.GRADIENT_SCRIM_ALPHA_BUSY : ScrimController.CUSTOM_GRADIENT_SCRIM_ALPHA, mBusynessFactor);
     }
 
     /**
@@ -994,5 +996,10 @@ public class RecentsView extends FrameLayout {
         if (mTaskStackView != null) {
             mTaskStackView.dump(innerPrefix, writer);
         }
+    }
+
+    private boolean showWallpaperTint() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.WALLPAPER_RECENTS_TINT, 1, UserHandle.USER_CURRENT) == 1;
     }
 }
