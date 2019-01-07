@@ -5929,6 +5929,9 @@ public final class ActivityThread {
                             getApplicationThread(), auth, userId, stable);
                 }
             } catch (RemoteException ex) {
+                // ignored
+            } catch (NullPointerException ex) {
+                // ignored
             }
         }
         synchronized (mProviderMap) {

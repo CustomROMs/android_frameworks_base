@@ -1861,7 +1861,9 @@ public final class Settings {
                     arg.putBoolean(CALL_METHOD_MAKE_DEFAULT_KEY, true);
                 }
                 IContentProvider cp = mProviderHolder.getProvider(cr);
-                cp.call(cr.getPackageName(), mCallSetCommand, name, arg);
+                if (cp != null) {
+                    cp.call(cr.getPackageName(), mCallSetCommand, name, arg);
+                }
             } catch (RemoteException e) {
                 Log.w(TAG, "Can't set key " + name + " in " + mUri, e);
                 return false;
@@ -1988,6 +1990,8 @@ public final class Settings {
                 } catch (RemoteException e) {
                     // Not supported by the remote side?  Fall through
                     // to query().
+                } catch (NullPointerException e) {
+                    // ignored
                 }
             }
 
@@ -2025,6 +2029,8 @@ public final class Settings {
             } catch (RemoteException e) {
                 Log.w(TAG, "Can't get key " + name + " from " + mUri, e);
                 return null;  // Return null, but don't cache it.
+            } catch (NullPointerException e) {
+                return null;  // ignored
             } finally {
                 if (c != null) c.close();
             }
