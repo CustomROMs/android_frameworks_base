@@ -2791,6 +2791,7 @@ public class Notification implements Parcelable
         private boolean mTintActionButtons;
         private boolean mInNightMode;
         private boolean mAllowIconTextTint;
+        private boolean mAllowAppNameTextTint;
 
         /**
          * Constructs a new Builder with the defaults:
@@ -2834,6 +2835,7 @@ public class Notification implements Parcelable
             Resources res = mThemeContext.getResources();
             mTintActionButtons = res.getBoolean(R.bool.config_tintNotificationActionButtons);
             mAllowIconTextTint = res.getBoolean(R.bool.config_allowNotificationIconTextTinting);
+            mAllowAppNameTextTint = res.getBoolean(R.bool.config_allowNotificationAppNameTextTinting);
 
             if (res.getBoolean(R.bool.config_enableNightMode)) {
                 Configuration currentConfig = res.getConfiguration();
@@ -4310,7 +4312,7 @@ public class Notification implements Parcelable
                 setTextViewColorPrimary(contentView, R.id.app_name_text);
             } else {
                 contentView.setTextColor(R.id.app_name_text,
-                        ambient ? resolveAmbientColor() : resolveContrastColor());
+                        ambient ? resolveAmbientColor() : resolveAppNameTinting());
             }
         }
 
@@ -4884,6 +4886,14 @@ public class Notification implements Parcelable
         int resolveIconContrastColor() {
             if (!mAllowIconTextTint) {
                 return mThemeContext.getColor(R.color.notification_icon_default_color);
+            } else {
+                return resolveContrastColor();
+            }
+        }
+
+        int resolveAppNameTinting() {
+            if (!mAllowAppNameTextTint) {
+                return getSecondaryTextColor();
             } else {
                 return resolveContrastColor();
             }
