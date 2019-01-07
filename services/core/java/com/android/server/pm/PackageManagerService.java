@@ -3942,10 +3942,9 @@ public class PackageManagerService extends IPackageManager.Stub
             flags |= MATCH_ANY_USER;
         }
 
-        PackageInfo packageInfo = mayFakeSignature(p, PackageParser
-                .generatePackageInfo(p, gids, flags, ps.firstInstallTime,
-                ps.lastUpdateTime, permissions, state, userId), permissions);
-
+        PackageInfo packageInfo = mayFakeSignature(p, PackageParser.generatePackageInfo(p, gids, flags,
+                ps.firstInstallTime, ps.lastUpdateTime, permissions, state, userId), permissions);
+ 
         if (packageInfo == null) {
             return null;
         }
