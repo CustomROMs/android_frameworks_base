@@ -792,11 +792,6 @@ public class Resources {
     @Deprecated
     public Drawable getDrawable(@DrawableRes int id) throws NotFoundException {
         final Drawable d = getDrawable(id, null);
-        if (d != null && d.canApplyTheme()) {
-            Log.w(TAG, "Drawable " + getResourceName(id) + " has unresolved theme "
-                    + "attributes! Consider using Resources.getDrawable(int, Theme) or "
-                    + "Context.getDrawable(int).", new RuntimeException());
-        }
         return d;
     }
 
