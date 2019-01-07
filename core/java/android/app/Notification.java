@@ -3919,7 +3919,7 @@ public class Notification implements Parcelable
         }
 
         private RemoteViews applyStandardTemplate(int resId, StandardTemplateParams p) {
-            RemoteViews contentView = new BuilderRemoteViews(mThemeContext.getApplicationInfo(), resId);
+            RemoteViews contentView = new BuilderRemoteViews(mContext.getApplicationInfo(), resId);
 
             resetStandardTemplate(contentView);
 
@@ -4501,7 +4501,7 @@ public class Notification implements Parcelable
         public RemoteViews makeNotificationHeader(boolean ambient) {
             Boolean colorized = (Boolean) mN.extras.get(EXTRA_COLORIZED);
             mN.extras.putBoolean(EXTRA_COLORIZED, false);
-            RemoteViews header = new BuilderRemoteViews(mThemeContext.getApplicationInfo(),
+            RemoteViews header = new BuilderRemoteViews(mContext.getApplicationInfo(),
                     ambient ? R.layout.notification_template_ambient_header
                             : R.layout.notification_template_header);
             resetNotificationHeader(header);
@@ -4689,7 +4689,7 @@ public class Notification implements Parcelable
         private RemoteViews generateActionButton(Action action, boolean emphazisedMode,
                 boolean oddAction, boolean ambient) {
             final boolean tombstone = (action.actionIntent == null);
-            RemoteViews button = new BuilderRemoteViews(mThemeContext.getApplicationInfo(),
+            RemoteViews button = new BuilderRemoteViews(mContext.getApplicationInfo(),
                     emphazisedMode ? getEmphasizedActionLayoutResource()
                             : tombstone ? getActionTombstoneLayoutResource()
                                     : getActionLayoutResource());
