@@ -132,6 +132,7 @@
     <uses-permission android:name="android.permission.CONFIGURE_WIFI_DISPLAY" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
 
     <!-- Torch tile -->
     <uses-permission android:name="android.permission.ACCESS_TORCH_SERVICE" />
@@ -253,6 +254,12 @@
                 <action android:name="com.android.systemui.screenshot.SHOW_ERROR" />
             </intent-filter>
         </receiver>
+
+        <!-- started from PhoneWindowManager
+             TODO: Should have an android:permission attribute -->
+        <service android:name=".globalactions.OnTheGoService"
+            android:process=":onthego"
+            android:exported="false" />
 
         <receiver android:name=".SysuiRestartReceiver"
             android:exported="false">
