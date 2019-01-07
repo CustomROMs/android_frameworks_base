@@ -130,7 +130,13 @@ public class SQLiteCursor extends AbstractWindowedCursor {
         // Make sure the row at newPosition is present in the window
         if (mWindow == null || newPosition < mWindow.getStartPosition() ||
                 newPosition >= (mWindow.getStartPosition() + mWindow.getNumRows())) {
-            throw new IllegalStateException("newPosition should be in the window at this point");
+            try {
+                fillWindow(newPosition, false);
+            } catch (IllegalStateException e) {
+                // for newPosition should return false
+                Log.w(TAG, "newPosition should be in the window at this point ", e);
+                return false;
+            }
         }
 
         return true;
