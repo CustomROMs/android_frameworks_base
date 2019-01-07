@@ -1663,13 +1663,13 @@ public final class StrictMode {
                     // to disk, thus violating policy, thus requiring logging, etc...
                     // We restore the current policy below, in the finally block.
                     setThreadPolicyMask(0);
-                    if (ActivityManager.getService() == null) {
-                        return;
+
+                    IActivityManager am = ActivityManager.getService();
+                    if (am == null) {
+                        Log.d(TAG, "No activity manager; failed to handle strict violation!");
                     } else {
-                        ActivityManager.getService().handleApplicationStrictModeViolation(
-                            RuntimeInit.getApplicationObject(),
-                            violationMaskSubset,
-                            info);
+                        am.handleApplicationStrictModeViolation(RuntimeInit.getApplicationObject(),
+                                violationMaskSubset, info);
                     }
                 } catch (RemoteException e) {
                     if (e instanceof DeadObjectException) {
@@ -2100,10 +2100,13 @@ public final class StrictMode {
                 // We restore the current policy below, in the finally block.
                 setThreadPolicyMask(0);
 
-                ActivityManager.getService().handleApplicationStrictModeViolation(
-                    RuntimeInit.getApplicationObject(),
-                    violationMaskSubset,
-                    info);
+                IActivityManager am = ActivityManager.getService();
+                if (am == null) {
+                    Log.d(TAG, "No activity manager; failed to handle strict violation!");
+                } else {
+                    am.handleApplicationStrictModeViolation(RuntimeInit.getApplicationObject(),
+                            violationMaskSubset, info);
+                }
             } catch (RemoteException e) {
                 if (e instanceof DeadObjectException) {
                     // System process is dead; ignore
