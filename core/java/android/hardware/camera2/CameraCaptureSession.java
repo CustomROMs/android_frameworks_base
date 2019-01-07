@@ -809,6 +809,13 @@ public abstract class CameraCaptureSession implements AutoCloseable {
     }
 
     /**
+     * Temporary for migrating to Callback naming
+     * @hide
+     */
+    public static abstract class StateListener extends StateCallback {
+    }
+
+    /**
      * <p>A callback object for tracking the progress of a {@link CaptureRequest} submitted to the
      * camera device.</p>
      *

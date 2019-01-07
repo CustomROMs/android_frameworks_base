@@ -44,9 +44,11 @@ import android.content.pm.ShortcutManager;
 import android.content.res.Resources;
 import android.hardware.ConsumerIrManager;
 import android.hardware.ISerialManager;
+import android.hardware.ITorchService;
 import android.hardware.SensorManager;
 import android.hardware.SerialManager;
 import android.hardware.SystemSensorManager;
+import android.hardware.TorchManager;
 import android.hardware.camera2.CameraManager;
 import android.hardware.display.DisplayManager;
 import android.hardware.fingerprint.FingerprintManager;
@@ -897,6 +899,17 @@ final class SystemServiceRegistry {
             public RulesManager createService(ContextImpl ctx) {
                 return new RulesManager(ctx.getOuterContext());
             }});
+
+        registerService(Context.TORCH_SERVICE, TorchManager.class,
+                new CachedServiceFetcher<TorchManager>() {
+            @Override
+            public TorchManager createService(ContextImpl ctx) {
+                IBinder b = ServiceManager.getService(Context.TORCH_SERVICE);
+                ITorchService service = ITorchService.Stub.asInterface(b);
+                final Context outerContext = ctx.getOuterContext();
+                return new TorchManager(outerContext, service);
+            }});
+
     }
 
     /**

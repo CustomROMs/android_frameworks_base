@@ -17,7 +17,9 @@
 package com.android.systemui.qs.tiles;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.TorchManager;
 import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.service.quicksettings.Tile;
@@ -29,23 +31,24 @@ import com.android.systemui.R;
 import com.android.systemui.plugins.qs.QSTile.BooleanState;
 import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
-import com.android.systemui.statusbar.policy.FlashlightController;
 
 /** Quick settings tile: Control flashlight **/
 public class FlashlightTile extends QSTileImpl<BooleanState> implements
-        FlashlightController.FlashlightListener {
+        TorchManager.TorchCallback {
 
     private final Icon mIcon = ResourceIcon.get(R.drawable.ic_signal_flashlight);
-    private final FlashlightController mFlashlightController;
+    private final TorchManager mTorchManager;
 
     public FlashlightTile(QSHost host) {
         super(host);
-        mFlashlightController = Dependency.get(FlashlightController.class);
+        mTorchManager = (TorchManager) mContext.getSystemService(Context.TORCH_SERVICE);
+        mTorchManager.addListener(this);
     }
 
     @Override
     protected void handleDestroy() {
         super.handleDestroy();
+        mTorchManager.removeListener(this);
     }
 
     @Override
@@ -55,12 +58,6 @@ public class FlashlightTile extends QSTileImpl<BooleanState> implements
 
     @Override
     public void handleSetListening(boolean listening) {
-        if (mFlashlightController == null) return;
-        if (listening) {
-            mFlashlightController.addCallback(this);
-        } else {
-            mFlashlightController.removeCallback(this);
-        }
     }
 
     @Override
@@ -73,18 +70,13 @@ public class FlashlightTile extends QSTileImpl<BooleanState> implements
     }
 
     @Override
-    public boolean isAvailable() {
-        return mFlashlightController.hasFlashlight();
-    }
-
-    @Override
     protected void handleClick() {
         if (ActivityManager.isUserAMonkey()) {
             return;
         }
         boolean newState = !mState.value;
+        mTorchManager.setTorchEnabled(newState);
         refreshState(newState);
-        mFlashlightController.setFlashlight(newState);
     }
 
     @Override
@@ -99,14 +91,14 @@ public class FlashlightTile extends QSTileImpl<BooleanState> implements
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        if (mFlashlightController == null) {
+        if (mTorchManager == null) {
             return;
         }
         if (state.slash == null) {
             state.slash = new SlashState();
         }
         state.label = mHost.getContext().getString(R.string.quick_settings_flashlight_label);
-        if (!mFlashlightController.isAvailable()) {
+        if (!mTorchManager.isAvailable()) {
             state.icon = mIcon;
             state.slash.isSlashed = true;
             state.contentDescription = mContext.getString(
@@ -121,8 +113,9 @@ public class FlashlightTile extends QSTileImpl<BooleanState> implements
             }
             state.value = value;
         } else {
-            state.value = mFlashlightController.isEnabled();
+            state.value = mTorchManager.isTorchOn();
         }
+
         state.icon = mIcon;
         state.slash.isSlashed = !state.value;
         state.contentDescription = mContext.getString(R.string.quick_settings_flashlight_label);
@@ -145,17 +138,17 @@ public class FlashlightTile extends QSTileImpl<BooleanState> implements
     }
 
     @Override
-    public void onFlashlightChanged(boolean enabled) {
-        refreshState(enabled);
-    }
-
-    @Override
-    public void onFlashlightError() {
+    public void onTorchOff() {
         refreshState(false);
     }
 
     @Override
-    public void onFlashlightAvailabilityChanged(boolean available) {
+    public void onTorchError() {
+        refreshState(false);
+    }
+
+    @Override
+    public void onTorchAvailabilityChanged(boolean available) {
         refreshState();
     }
 }

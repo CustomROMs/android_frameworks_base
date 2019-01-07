@@ -1051,6 +1051,16 @@ public final class SystemServer {
                 traceEnd();
             }
 
+            if (!disableNonCoreServices) {
+                traceBeginAndSlog("StartTorchService");
+                try {
+                    ServiceManager.addService(Context.TORCH_SERVICE, new TorchService(context));
+                } catch (Throwable e) {
+                    reportWtf("starting Torch Service", e);
+                }
+                traceEnd();
+            }
+
             if (!disableNetwork) {
                 traceBeginAndSlog("StartNetworkManagementService");
                 try {
