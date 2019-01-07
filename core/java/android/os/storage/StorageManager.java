@@ -109,6 +109,8 @@ public class StorageManager {
     /** {@hide} */
     public static final String PROP_PRIMARY_PHYSICAL = "ro.vold.primary_physical";
     /** {@hide} */
+    public static final String PROP_PRIMARY_EMULATED = "ro.vold.primary_emulated";
+    /** {@hide} */
     public static final String PROP_HAS_ADOPTABLE = "vold.has_adoptable";
     /** {@hide} */
     public static final String PROP_FORCE_ADOPTABLE = "persist.fw.force_adoptable";
