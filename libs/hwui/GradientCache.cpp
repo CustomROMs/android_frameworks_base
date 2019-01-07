@@ -66,7 +66,7 @@ int GradientCacheEntry::compare(const GradientCacheEntry& lhs, const GradientCac
 GradientCache::GradientCache(const Extensions& extensions)
         : mCache(LruCache<GradientCacheEntry, Texture*>::kUnlimitedCapacity)
         , mSize(0)
-        , mMaxSize(MB(1))
+        , mMaxSize(MB(0.2))
         , mUseFloatTexture(extensions.hasFloatTextures())
         , mHasNpot(extensions.hasNPot())
         , mHasLinearBlending(extensions.hasLinearBlending()) {

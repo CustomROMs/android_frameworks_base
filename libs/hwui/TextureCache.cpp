@@ -36,7 +36,7 @@ namespace uirenderer {
 TextureCache::TextureCache()
         : mCache(LruCache<uint32_t, Texture*>::kUnlimitedCapacity)
         , mSize(0)
-        , mMaxSize(DeviceInfo::multiplyByResolution(4 * 6)) // 6 screen-sized RGBA_8888 bitmaps
+        , mMaxSize(DeviceInfo::multiplyByResolution(8))
         , mFlushRate(.4f) {
     mCache.setOnEntryRemovedListener(this);
     mMaxTextureSize = DeviceInfo::get()->maxTextureSize();

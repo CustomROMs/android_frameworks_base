@@ -181,7 +181,7 @@ static sk_sp<Bitmap> drawPath(const SkPath* path, const SkPaint* paint, PathText
 PathCache::PathCache()
         : mCache(LruCache<PathDescription, PathTexture*>::kUnlimitedCapacity)
         , mSize(0)
-        , mMaxSize(DeviceInfo::multiplyByResolution(4)) {
+        , mMaxSize(DeviceInfo::multiplyByResolution(2)) {
     mCache.setOnEntryRemovedListener(this);
     mMaxTextureSize = DeviceInfo::get()->maxTextureSize();
     mDebugEnabled = Properties::debugLevel & kDebugCaches;
