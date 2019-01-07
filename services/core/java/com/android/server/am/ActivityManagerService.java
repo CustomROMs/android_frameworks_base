@@ -4093,7 +4093,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             mHandler.post(() -> {
                 synchronized(ActivityManagerService.this) {
                     forceStopPackageLocked(app.info.packageName, UserHandle.getAppId(app.uid), false,
-                        false, true, false, false, UserHandle.getUserId(app.userId), "start failure");
+                        false, true, false, false, UserHandle.getUserId(app.uid), "start failure");
                 }
             });
         }
