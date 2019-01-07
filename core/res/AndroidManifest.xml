@@ -556,6 +556,9 @@
     <!-- ====================================================================== -->
     <eat-comment />
 
+    <!-- Font service -->
+    <protected-broadcast android:name="com.android.server.ACTION_FONT_CHANGED" />
+
     <!-- ====================================================================== -->
     <!-- Permissions for accessing user's contacts including personal profile   -->
     <!-- ====================================================================== -->
