@@ -217,6 +217,7 @@ public class KeyguardStatusView extends GridLayout {
 
         refreshTime();
         refreshAlarmStatus(nextAlarm);
+        refreshLockClockFont();
     }
 
     void refreshAlarmStatus(AlarmManager.AlarmClockInfo nextAlarm) {
@@ -248,6 +249,21 @@ public class KeyguardStatusView extends GridLayout {
                 : "Ehma";
         String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), skeleton);
         return DateFormat.format(pattern, info.getTriggerTime()).toString();
+    }
+
+    private void refreshLockClockFont() {
+        if (mClockView != null) {
+            mClockView.setTypeface(Typeface.create(FONT_FAMILY_LIGHT, Typeface.NORMAL));
+        }
+        if (mDateView != null) {
+            mDateView.setTypeface(Typeface.create(FONT_FAMILY_MEDIUM, Typeface.NORMAL));
+        }
+        if (mOwnerInfo != null) {
+            mOwnerInfo.setTypeface(Typeface.create(FONT_FAMILY_MEDIUM, Typeface.NORMAL));
+        }
+        if (mAlarmStatusView != null) {
+            mAlarmStatusView.setTypeface(Typeface.create(FONT_FAMILY_MEDIUM, Typeface.NORMAL));
+        }
     }
 
     private void updateOwnerInfo() {
