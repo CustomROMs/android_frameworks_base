@@ -1074,13 +1074,6 @@ public abstract class CameraDevice implements AutoCloseable {
     }
 
     /**
-     * Temporary for migrating to Callback naming
-     * @hide
-     */
-    public static abstract class StateListener extends StateCallback {
-    }
-
-    /**
      * To be inherited by android.hardware.camera2.* code only.
      * @hide
      */

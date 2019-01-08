@@ -134,9 +134,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
 
-    <!-- Torch tile -->
-    <uses-permission android:name="android.permission.ACCESS_TORCH_SERVICE" />
-
     <!-- Screen Capturing -->
     <uses-permission android:name="android.permission.MANAGE_MEDIA_PROJECTION" />
 

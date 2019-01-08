@@ -80,6 +80,7 @@ import com.android.systemui.statusbar.KeyguardIndicationController;
 import com.android.systemui.statusbar.policy.AccessibilityController;
 import com.android.systemui.statusbar.policy.ExtensionController;
 import com.android.systemui.statusbar.policy.ExtensionController.Extension;
+import com.android.systemui.statusbar.policy.FlashlightController;
 import com.android.systemui.statusbar.policy.PreviewInflater;
 import com.android.systemui.tuner.LockscreenFragment.LockButtonFactory;
 import com.android.systemui.tuner.TunerService;
@@ -132,6 +133,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     private ActivityStarter mActivityStarter;
     private UnlockMethodCache mUnlockMethodCache;
     private LockPatternUtils mLockPatternUtils;
+    private FlashlightController mFlashlightController;
     private PreviewInflater mPreviewInflater;
     private KeyguardIndicationController mIndicationController;
     private AccessibilityController mAccessibilityController;
@@ -252,6 +254,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         mLeftAffordanceView.setOnClickListener(this);
         initAccessibility();
         mActivityStarter = Dependency.get(ActivityStarter.class);
+        mFlashlightController = Dependency.get(FlashlightController.class);
         mAccessibilityController = Dependency.get(AccessibilityController.class);
         mAssistManager = Dependency.get(AssistManager.class);
         mLockIcon.setAccessibilityController(mAccessibilityController);
