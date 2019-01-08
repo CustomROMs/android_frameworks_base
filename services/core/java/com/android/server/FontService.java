@@ -142,10 +142,8 @@ public class FontService extends IFontService.Stub {
                         synchronized (mFontMap) {
                             processFontPackage(packageName);
                         }
-                        break;
                     }
-                    // Fall through to MESSAGE_PACKAGE_REMOVED if the package
-                    // is not a font provider, in case it needs cleanup
+                    break;
                 case MESSAGE_PACKAGE_REMOVED:
                     packageName = (String) msg.obj;
                     boolean hadFonts = mFontMap.containsKey(packageName);
@@ -263,7 +261,6 @@ public class FontService extends IFontService.Stub {
     private void processFontPackage(String packageName) {
         List<FontInfo> infoList = new ArrayList<FontInfo>();
         Context appContext = getAppContext(packageName);
-        if (appContext == null) return;
         AssetManager am = appContext.getAssets();
         List<String> fontZips = getFontsFromPackage(packageName);
         File packageFontPreviewDir = new File(SYSTEM_THEME_PREVIEW_CACHE_DIR, packageName);
@@ -381,7 +378,6 @@ public class FontService extends IFontService.Stub {
 
     private boolean isPackageFontProvider(String packageName) {
         Context appContext = getAppContext(packageName);
-        if (appContext == null) return false;
         int id = appContext.getResources().getIdentifier(FONT_IDENTIFIER,
                 "bool",
                 appContext.getPackageName());
