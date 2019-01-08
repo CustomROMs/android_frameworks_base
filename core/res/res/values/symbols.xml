@@ -3094,7 +3094,4 @@
   <java-symbol type="style" name="Animation.Toast.Translucent" />
   <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
   <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
-  <!-- System fonts -->
-  <java-symbol type="array" name="config_fontPackages" />
-
 </resources>
