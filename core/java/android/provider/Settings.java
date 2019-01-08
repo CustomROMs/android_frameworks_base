@@ -4074,20 +4074,6 @@ public final class Settings {
         public static final String HIDE_FROM_RECENTS_LIST = "hide_from_recents_list";
 
         /**
-         * Hold current font name and name of the originating package Uses "|" as a delimiter
-         *
-         * @hide
-         */
-        public static final String FONT_INFO = "font_info";
-
-        /**
-         * Hold list of installed font provider packages. Uses "|" as a delimiter
-         *
-         * @hide
-         */
-        public static final String FONT_PACKAGES = "font_packages";
-
-        /**
          * Whether to use the MTP by default after connecting to PC
          * @hide
          */
