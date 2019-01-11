@@ -26,6 +26,7 @@
 #include <nativehelper/ScopedBytes.h>
 
 #include <utils/Log.h>
+#include <cutils/properties.h>
 #include <media/AudioSystem.h>
 #include <media/AudioTrack.h>
 
@@ -39,6 +40,8 @@
 #include "android_media_VolumeShaper.h"
 
 #include <cinttypes>
+
+//#include <set>
 
 // ----------------------------------------------------------------------------
 
@@ -116,6 +119,9 @@ static SortedVector <audiotrack_callback_cookie *> sAudioTrackCallBackCookies;
 #define AUDIOTRACK_ERROR_SETUP_INVALIDFORMAT       (-18)
 #define AUDIOTRACK_ERROR_SETUP_INVALIDSTREAMTYPE   (-19)
 #define AUDIOTRACK_ERROR_SETUP_NATIVEINITFAILED    (-20)
+
+//std::set<int> tracks;
+//std::set<int>::iterator tracks_it;
 
 // ----------------------------------------------------------------------------
 static void audioCallback(int event, void* user, void *info) {
@@ -462,16 +468,28 @@ native_init_failure:
     return (jint) AUDIOTRACK_ERROR_SETUP_NATIVEINITFAILED;
 }
 
+static uint32_t tracks_num = 0;
+
 // ----------------------------------------------------------------------------
 static void
 android_media_AudioTrack_start(JNIEnv *env, jobject thiz)
 {
+    ALOGE("%s: jobject: %x\n", __func__, (int)thiz);
     sp<AudioTrack> lpTrack = getAudioTrack(env, thiz);
+
     if (lpTrack == NULL) {
         jniThrowException(env, "java/lang/IllegalStateException",
             "Unable to retrieve AudioTrack pointer for start()");
         return;
     }
+
+    tracks_num++;
+    if (tracks_num > 0)
+        property_set("media.player_start", "1");
+    else
+        property_set("media.player_start", "0");
+
+    //tracks.insert((int)thiz);
 
     lpTrack->start();
 }
@@ -481,6 +499,7 @@ android_media_AudioTrack_start(JNIEnv *env, jobject thiz)
 static void
 android_media_AudioTrack_stop(JNIEnv *env, jobject thiz)
 {
+    ALOGE("%s: jobject: %x\n", __func__, (int)thiz);
     sp<AudioTrack> lpTrack = getAudioTrack(env, thiz);
     if (lpTrack == NULL) {
         jniThrowException(env, "java/lang/IllegalStateException",
@@ -496,12 +515,21 @@ android_media_AudioTrack_stop(JNIEnv *env, jobject thiz)
 static void
 android_media_AudioTrack_pause(JNIEnv *env, jobject thiz)
 {
+    ALOGE("%s: jobject: %x\n", __func__, (int)thiz);
     sp<AudioTrack> lpTrack = getAudioTrack(env, thiz);
     if (lpTrack == NULL) {
         jniThrowException(env, "java/lang/IllegalStateException",
             "Unable to retrieve AudioTrack pointer for pause()");
         return;
     }
+
+    tracks_num--;
+
+    if (tracks_num > 0)
+        property_set("media.player_start", "1");
+    else
+        property_set("media.player_start", "0");
+    //tracks.erase((int)thiz);
 
     lpTrack->pause();
 }
@@ -511,6 +539,7 @@ android_media_AudioTrack_pause(JNIEnv *env, jobject thiz)
 static void
 android_media_AudioTrack_flush(JNIEnv *env, jobject thiz)
 {
+    ALOGE("%s: jobject: %x\n", __func__, (int)thiz);
     sp<AudioTrack> lpTrack = getAudioTrack(env, thiz);
     if (lpTrack == NULL) {
         jniThrowException(env, "java/lang/IllegalStateException",
@@ -1317,7 +1346,6 @@ bool android_media_getIntConstantFromClass(JNIEnv* pEnv, jclass theClass, const 
         return false;
     }
 }
-
 
 // ----------------------------------------------------------------------------
 int register_android_media_AudioTrack(JNIEnv *env)
