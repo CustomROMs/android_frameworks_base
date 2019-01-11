@@ -26,6 +26,10 @@
 #include <nativehelper/ScopedBytes.h>
 
 #include <utils/Log.h>
+#define EXYNOS4_ENHANCEMENTS
+#ifdef EXYNOS4_ENHANCEMENTS
+#include <cutils/properties.h>
+#endif
 #include <media/AudioSystem.h>
 #include <media/AudioTrack.h>
 
@@ -462,16 +466,29 @@ native_init_failure:
     return (jint) AUDIOTRACK_ERROR_SETUP_NATIVEINITFAILED;
 }
 
+#ifdef EXYNOS4_ENHANCEMENTS
+static uint32_t tracks_num = 0;
+#endif
+
 // ----------------------------------------------------------------------------
 static void
 android_media_AudioTrack_start(JNIEnv *env, jobject thiz)
 {
     sp<AudioTrack> lpTrack = getAudioTrack(env, thiz);
+
     if (lpTrack == NULL) {
         jniThrowException(env, "java/lang/IllegalStateException",
             "Unable to retrieve AudioTrack pointer for start()");
         return;
     }
+
+#ifdef EXYNOS4_ENHANCEMENTS
+    tracks_num++;
+    if (tracks_num > 0)
+        property_set("media.player_start", "1");
+    else
+        property_set("media.player_start", "0");
+#endif
 
     lpTrack->start();
 }
@@ -502,6 +519,15 @@ android_media_AudioTrack_pause(JNIEnv *env, jobject thiz)
             "Unable to retrieve AudioTrack pointer for pause()");
         return;
     }
+
+#ifdef EXYNOS4_ENHANCEMENTS
+    tracks_num--;
+
+    if (tracks_num > 0)
+        property_set("media.player_start", "1");
+    else
+        property_set("media.player_start", "0");
+#endif
 
     lpTrack->pause();
 }
