@@ -399,6 +399,7 @@
 
     <protected-broadcast android:name="android.telecom.action.DEFAULT_DIALER_CHANGED" />
     <protected-broadcast android:name="android.provider.action.DEFAULT_SMS_PACKAGE_CHANGED" />
+    <protected-broadcast android:name="android.provider.action.SMS_MMS_DB_CREATED" />
     <protected-broadcast android:name="android.intent.action.CONTENT_CHANGED" />
     <protected-broadcast android:name="android.provider.Telephony.MMS_DOWNLOADED" />
 
@@ -1274,6 +1275,11 @@
          <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.MODIFY_CELL_BROADCASTS"
                 android:protectionLevel="signature|privileged" />
+
+    <!-- Allows an application to authorize outgoing SMS messages.
+         @hide -->
+    <permission android:name="com.qti.permission.AUTHORIZE_OUTGOING_SMS"
+                android:protectionLevel="signature" />
 
     <!-- =============================================================== -->
     <!-- Permissions for setting the device alarm                        -->
