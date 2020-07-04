@@ -57,7 +57,7 @@ struct ScopedSCSExit {
 
 void android_internal_os_ZygoteInit_nativePreloadAppProcessHALs(JNIEnv* env, jclass) {
     ScopedSCSExit x;
-    android::GraphicBufferMapper::preloadHal();
+    //android::GraphicBufferMapper::preloadHal();
     // Add preloading here for other HALs that are (a) always passthrough, and
     // (b) loaded by most app processes.
 }
