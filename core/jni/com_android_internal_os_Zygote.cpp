@@ -784,8 +784,9 @@ static bool BindMount(const std::string& source_dir, const std::string& target_d
 static void BindMount(const std::string& source_dir, const std::string& target_dir,
                       fail_fn_t fail_fn) {
   if (!BindMount(source_dir, target_dir)) {
-    fail_fn(CREATE_ERROR("Failed to mount %s to %s: %s",
-                         source_dir.c_str(), target_dir.c_str(), strerror(errno)));
+    ALOGE("%s: Failed to mount %s to %s: %s", __func__, source_dir.c_str(), target_dir.c_str(), strerror(errno));
+    /*fail_fn(CREATE_ERROR("Failed to mount %s to %s: %s",
+                         source_dir.c_str(), target_dir.c_str(), strerror(errno)));*/
   }
 }
 
